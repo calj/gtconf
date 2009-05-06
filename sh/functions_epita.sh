@@ -12,7 +12,7 @@
 # DEFINE IF THE COMPUTER IS ON THE EPITA PIE
 function isepita ()
 {
-    ([[ "`echo -n ~ | cut -c 1-3`" = "/u/" ]] || [[ -f ~/.conf/.isepita ]]) && return 0
+    ([[ "`echo -n ~ | cut -c 1-3`" = "/u/" ]] || [[ -f ~/$GT_CONF/.isepita ]]) && return 0
     return 1
 }
 

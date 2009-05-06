@@ -80,29 +80,3 @@ function infinity_loop()
     while :;do; $@;done
 }
 
-# CHECK IF THE GEEKTIPS EMACS CONFIG FILE IS INSTALLED
-function check_install_emacs ()
-{
-    key="ac44b1b31d23550736da8ad61f768b27"
-
-    whereis emacs &> /dev/null     || return
-    [ $USER_EMACS_CONF = "OFF" ] && return
-
-    install="off"
-    if [[ -f ~/.emacs ]];then
-	env -i grep $key ~/.emacs > /dev/null || install="on"
-    else
-	install="on"
-    fi
-
-    if [ $install = "on" ];then
-	echo "
-		;; geektips.org MAGIC NUMBER : "$key"
-		(if (file-exists-p \"~/.conf/emacs/.emacs\")
-		    (load-file \"~/.conf/emacs/.emacs\")
-		 )
-	     " >> ~/.emacs
-	(cd ~/.conf/emacs && ./batch-compile.sh)
-    fi
-}
-

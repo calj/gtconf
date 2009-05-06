@@ -2,7 +2,7 @@
 
 ;(setq debug-on-error t)
 
-(setq load-path (cons "~/.conf/emacs" load-path))
+(setq load-path (cons (concat (getenv "GT_DIR") "/emacs") load-path))
 
 ;;============================================================================|
 ;;                               CUSTOM PACKAGES                              |
@@ -98,7 +98,7 @@
 (toggle-uniquify-buffer-names)		;; Renames ambiguous buffers: Makefile<2> -> src/Makefile
 
 ;; abbreviations
-(setq abbrev-file-name "~/.conf/emacs/.abbrev_defs")	;; Abbreviations - see M-x edit-abbrevs
+(setq abbrev-file-name (concat (getenv "GT_DIR") "/emacs/.abbrev_defs"))	;; Abbreviations - see M-x edit-abbrevs
 (abbrev-mode 1)						;; Activate abbrev-mode for ALL modes
 (setq default-abbrev-mode t)				;; Activate abbrev-mode (again, just in case)
 
@@ -109,7 +109,7 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 ;; delete trailing whitespaces on save
-(add-hook 'write-file-hooks' delete-trailing-whitespace)
+;;(add-hook 'write-file-hooks' delete-trailing-whitespace)
 
 ;; Fixes `M-x shell` color codes :)
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
@@ -448,7 +448,7 @@ class " fname))
 ;; Do NOT modify stuff below
 
 ;; Load correct file -> X or noX
-(let ((confile (if window-system "~/.conf/emacs/emacsdot_x" "~/.conf/emacs/emacsdot_nox")))
+(let ((confile (if window-system (concat (getenv "GT_DIR") "/emacs/emacsdot_x") (concat (getenv "GT_DIR") "/emacs/emacsdot_nox"))))
   (if (file-exists-p confile)
       (load-file confile)))
 
