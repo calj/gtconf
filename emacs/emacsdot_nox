@@ -1,0 +1,30 @@
+; -*- emacs-lisp -*-
+
+(normal-erase-is-backspace-mode -1)
+
+;; Fix comments/strings colours :)
+(set-face-foreground 'font-lock-comment-face "red")
+(set-face-foreground 'font-lock-string-face "green")
+
+
+;; [keyboard binds]
+(define-key function-key-map "\e[1;5H" [C-home])
+(define-key function-key-map "\e[H"    [C-home])  ;; Konsole
+(define-key function-key-map "\e[1;5F" [C-end])
+(define-key function-key-map "\e[F"    [C-end])   ;; Konsole
+(define-key function-key-map "\e[1;5A" [C-up])
+(define-key function-key-map "\e[A"    [C-up])    ;; Konsole
+(define-key function-key-map "\e[1;5B" [C-down])
+(define-key function-key-map "\e[B"    [C-down])  ;; Konsole
+(define-key function-key-map "\e[1;5D" [C-left])
+(define-key function-key-map "\e[D"    [C-left])  ;; Konsole
+(define-key function-key-map "\e[1;5C" [C-right])
+(define-key function-key-map "\e[C"    [C-right]) ;; Konsole
+(define-key function-key-map "\e[1;3D" [M-left])
+(define-key function-key-map "\e\e[D"  [M-left])  ;; Konsole
+(define-key function-key-map "\e[1;3C" [M-right])
+(define-key function-key-map "\e\e[C"  [M-right]) ;; Konsole
+(define-key function-key-map "\e[1;3A" [M-up])
+(define-key function-key-map "\e\e[A"  [M-up])    ;; Konsole
+(define-key function-key-map "\e[1;3B" [M-down])
+(define-key function-key-map "\e\e[B"  [M-down])  ;; Konsole

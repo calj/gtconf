@@ -1,0 +1,77 @@
+########################################################
+#                                                      #
+#       GEEKTIPS.ORG EASY CONFIGURATION SYSTEM         #
+#                                                      #
+#                      BETA 0.1                        #
+#                                                      #
+#            Common zsh configuration file             #
+#                                                      #
+########################################################
+
+# LOAD SH AND BASH FUNCTIONS
+source $GT_DIR/sh/functions.sh
+source $GT_DIR/bash/functions.sh
+
+# LOAD COLORS VARIABLES
+load_colors
+
+# SETUP DEFAULT PROMPT
+setopt PROMPT_SUBST # turn on various expansions in prompts
+if [[ `id -u` = "0" ]];then
+    PROMPT=$'%{${red}%}root%{${lyellow}%}@%m%{${std}%} [%{${lred}%}%~%{${std}%}] %(?..%{${lgreen}%}%?%{${std}%} )%{${lred}%}#%{${std}%} '
+else
+    PROMPT=$'%{${lblue}%}[%{${lgreen}%}${USER}%{${lblue}%}] %m%{${std}%} [%{${lgreen}%}%~%{${std}%}] %(?..%{${lred}%}%?%{${std}%} )$ '
+fi
+RPROMPT=$'%(?.%{\e[1;30m%}%*%{$std%}.%{$lred%}Error %?%{$std%})'
+
+# ALLOWS GROUP TO SEE OUR NEW FILES
+umask 002
+
+# ADD GEEKTIPS BINARIES TO THE PATH
+export PATH=$GT_DIR/mbin:~/mbin:"$PATH":/usr/sbin:/sbin
+
+limit core 0		# No core dumps
+setopt nopromptcr	# No cr before prompt
+setopt extendedglob	# Enable awesome extended globbing like **/*
+setopt mailwarning	# New mail?
+unsetopt bgnice		# Do not nice commands run in background
+
+# CONFIGURE X WHEN PHYSICALY LOGGED
+if [[ "$DISPLAY" != "" ]]; then     
+    xset b off          2> /dev/null 
+    xset r rate 300 100 2> /dev/null
+fi
+
+bindkey "^p"		insert-last-word	# Ctrl-P Insert last word of last line
+bindkey "\e[9;3~"	backward-delete-word	# Ctrl-Backspace - you need to patch linux.keytab:
+						# -key Backspace      : "\x7f"
+						# +key Backspace-Shift-Control : "\x7f"
+						# +key Backspace-Shift+Control : "\E[9;3~"
+bindkey "\e[3~"		delete-char		# Delete
+
+bindkey -s '^B' " 2> /dev/null &! \n"		# ctrl-B executes in bg and don't kill it whenever the shell die.
+
+export GREP_OPTIONS="--color=auto -I"
+export PAGER="less -r"
+export EDITOR="emacs -nw"
+export XTERM_OPTS="-T ${HOST}@${USER} -n ${HOST}@${USER} -ls"
+
+
+# DISTRIBUTIONS SWITCH CASE
+
+  case "`uname`" in
+
+      "Linux")
+	  alias ls='ls --color -h'
+	  ;;
+
+      "Darwin")
+	  alias ls='ls -G -h'
+	  ;;
+
+      *)
+	  alias ls='gls --color -h'
+	  ;;
+  esac
+
+

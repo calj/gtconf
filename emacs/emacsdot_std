@@ -1,0 +1,456 @@
+;; -*- emacs-lisp -*-
+
+;(setq debug-on-error t)
+
+(setq load-path (cons "~/.conf/emacs" load-path))
+
+;;============================================================================|
+;;                               CUSTOM PACKAGES                              |
+;;============================================================================|
+
+;; -- php mode --
+(require 'php-mode)
+(add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
+(add-to-list 'auto-mode-alist '("\\.php[34]?$" . php-mode))
+(eval-after-load `php-mode
+  `(progn
+     (add-hook 'php-mode-user-hook
+	       '(lambda() (setq tab-width 4 c-basic-offset 4)))
+     ))
+
+;; -- css mode --
+(require 'css-mode)
+(add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
+(eval-after-load `css-mode
+  `(progn
+     (setq cssm-indent-function #'cssm-c-style-indenter)
+     ))
+
+;; -- ido -- Buffer/File switcher
+(require 'ido)
+(ido-mode 1)
+(setq ido-everywhere t)				;; use it for as many file dialogs as possible
+(setq ido-enable-flex-matching t)		;; fuzzy matching
+(setq ido-confirm-unique-completion t)		;; if TAB completes uniquely, wait for RET
+(setq ido-auto-merge-work-directories-length -1) ;; No magic when file doesn't exist
+(add-to-list 'ido-ignore-buffers "^ ")
+(add-to-list 'ido-ignore-buffers "*Messages*")
+(add-to-list 'ido-ignore-buffers "*Buffer")
+(add-to-list 'ido-ignore-buffers "*Completions")
+(add-to-list 'ido-ignore-buffers "^[tT][aA][gG][sS]$")
+(setq ido-execute-command-cache nil)
+(defun ido-execute-command ()	;; Enables use of ido for completing commands in M-x !
+  (interactive)
+  (call-interactively
+   (intern
+    (ido-completing-read "M-x "
+     (progn
+       (unless ido-execute-command-cache
+	  (mapatoms (lambda (s)
+		           (when (commandp s)
+			            (setq ido-execute-command-cache
+					       (cons (format "%S" s) ido-execute-command-cache))))))
+       ido-execute-command-cache)))))
+(global-set-key "\M-x" 'ido-execute-command)
+
+;; -- Pabbrev -- Predictive suggestions
+(require 'pabbrev)
+(add-hook 'text-mode-hook 'pabbrev-mode 1)
+;(add-hook 'c-mode-common-hook 'pabbrev-mode 1)
+(eval-after-load `pabbrev
+  `(progn
+     (setq pabbrev-idle-timer-verbose nil)
+     ))
+
+;;============================================================================|
+;;                                    MISC                                    |
+;;============================================================================|
+
+(setq inhibit-startup-message t)	;; Skip startup infoscreen
+(setq frame-title-format '("%b" (buffer-file-name ": %f")))
+(fset 'yes-or-no-p 'y-or-n-p)		;; yes/no -> y/n
+(column-number-mode t)			;; Show column number in modeline
+(show-paren-mode t)			;; Highlight matching paren
+(global-font-lock-mode t)		;; Coloration ON
+(transient-mark-mode t)			;; Highlight selected region
+(mouse-wheel-mode t)			;; Enable mouse wheel
+(dynamic-completion-mode t)		;; ??? but sounds cool
+(menu-bar-mode 0)			;; Remove clickodrome menubar
+(display-time)				;; Time in modeline
+;(display-battery-mode t)		;; Battery in modeline ==> very slow <==
+(which-function-mode t)			;; Display current function in modeline
+;(size-indication-mode t)		;; File size in modeline
+(setq display-time-24hr-format t)	;; Set 24h format time
+;(setq display-time-day-and-date t)	;; Show date along with time
+(setq font-lock-maximum-decoration t)	;; Maximum coloration
+(setq delete-auto-save-files t)		;; ???
+(setq delete-old-versions t)		;; ???
+(setq ring-bell-function 'ignore)	;; Shut The Fuck Up
+(setq make-backup-files nil)		;; Do not make backup files (caca~)
+(setq scroll-step 3)			;; Scroll 3 lines when reaching top/end of buffer
+(setq next-screen-context-lines 1)	;; Page Up/Down conserves 1 line from previous page
+(setq mouse-yank-at-point t)		;; Paste at cursor rather than mouse
+(setq scroll-preserve-screen-position t);; Scrolling up and down will return to initial position
+(global-auto-revert-mode t)		;; Auto reload file when it changed ?
+(setq kill-whole-line t)		;; Ctrl-K kills whole line when cursor is at begining
+(if window-system (pc-selection-mode))	;; NE PAS METTRE DANS _X ou _NOX - ca marche pas sinon...
+(delete-selection-mode t)		;; Del and Backspace delete current selection
+(toggle-uniquify-buffer-names)		;; Renames ambiguous buffers: Makefile<2> -> src/Makefile
+
+;; abbreviations
+(setq abbrev-file-name "~/.conf/emacs/.abbrev_defs")	;; Abbreviations - see M-x edit-abbrevs
+(abbrev-mode 1)						;; Activate abbrev-mode for ALL modes
+(setq default-abbrev-mode t)				;; Activate abbrev-mode (again, just in case)
+
+;; forbid moving point into read-only part of the prompt
+(plist-put minibuffer-prompt-properties 'point-entered 'minibuffer-avoid-prompt)
+
+;; if the script has a first line of "#!" then do chmod a+x
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+;; delete trailing whitespaces on save
+(add-hook 'write-file-hooks' delete-trailing-whitespace)
+
+;; Fixes `M-x shell` color codes :)
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+;;; [keyboard binds]
+(global-set-key [f5] 'recompile)
+(global-set-key [f6] 'next-error)
+(global-set-key [(control a)] 'mark-whole-buffer)
+(global-set-key [C-home] 'beginning-of-buffer)
+(global-set-key [C-end] 'end-of-buffer)
+(global-set-key [(meta g)] 'goto-line)
+(global-set-key "\C-cu" 'uncomment-region)
+(global-set-key "\C-cc" 'comment-region)
+(global-set-key [(control %)] 'query-replace-regexp)	;; Search by regexp and replace
+(global-set-key [(control f)] 'ffap)			;; Open file at point
+(global-set-key [M-backspace] 'backward-kill-word)	;; Delete previous word
+(global-set-key [C-backspace] 'backward-kill-word)	;; Delete previous word
+;; Meta + arrows: Windmove to buffer
+(windmove-default-keybindings 'meta)
+;; Control + up/down: moves lines
+(global-set-key [C-up] 'move-line-up)
+(global-set-key [C-down] 'move-line-down)
+;; Meta + Control + up/down: scroll buffer
+(global-set-key [M-S-up] 'scroll-line-down)
+(global-set-key [M-S-down] 'scroll-line-up)
+
+(custom-set-variables
+  ;; custom-set-variables was added by Custom -- don't edit or cut/paste it!
+  ;; Your init file should contain only one such instance.
+ '(c-font-lock-extra-types (quote ("FILE" "\\sw+_t" "Lisp_Object" "s_\\sw+" "e_\\sw+" "_Bool" "t_\\sw+"))))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom -- don't edit or cut/paste it!
+  ;; Your init file should contain only one such instance.
+ '(font-lock-function-name-face ((t (:foreground "LightSalmon"))))
+ '(font-lock-string-face ((((class color) (background dark)) (:foreground "Green3"))))
+ '(show-paren-match-face ((((class color)) (:background "turquoise" :foreground "black"))))
+ '(show-paren-mismatch-face ((((class color)) (:background "red" :foreground "black"))))
+ '(flymake-errline ((((class color)) (:underline "OrangeRed"))))
+ '(flymake-warnline ((((class color)) (:underline "yellow")))))
+
+;=============================================================================|
+;                             C-MODE MODIFICATIONS                            |
+;=============================================================================|
+
+;; Aligns braces with preceding line (fixes enum problem)
+(add-hook 'c-mode-common-hook
+	  (lambda ()
+	    (c-set-offset 'brace-list-open '0)
+	    (c-set-offset 'statement-case-open '0)
+	    (c-set-offset 'substatement-open '0)
+	    ))
+
+;;============================================================================|
+;;                               MISC FUNCTIONS                               |
+;;============================================================================|
+
+(defun move-line (&optional n)
+  "Move current line N (1) lines up/down leaving point in place."
+  (interactive "p")
+  (when (null n)
+    (setq n 1))
+  (let ((col (current-column)))
+    (next-line 1)
+    (transpose-lines n)
+    (previous-line 1)
+    (beginning-of-line)
+    (forward-char col)))
+
+(defun move-line-up (n)
+  "Moves current line N (1) lines up leaving point in place."
+  (interactive "p")
+  (move-line (if (null n) -1 (- n))))
+
+(defun move-line-down (n)
+  "Moves current line N (1) lines down leaving point in place."
+  (interactive "p")
+  (move-line (if (null n) 1 n)))
+
+(defun scroll-line-up (&optional n)
+  "Scrolls buffer x lines up"
+  (interactive)
+  (scroll-up (or n 1)))
+
+(defun scroll-line-down (&optional n)
+  "Scrolls buffer x lines down"
+  (interactive)
+  (scroll-down (or n 1)))
+
+
+;=============================================================================|
+;                          Bindings INSERT BLOCS              \M-c            |
+;=============================================================================|
+
+;;; Stringify/<>ify current selection/word
+(defun wrap-selection-or-word-with-chars-around (firstchar &optional secondchar)
+  "Inserts chars around selected text or current word"
+  (interactive)
+  (if (and transient-mark-mode mark-active)
+      (let ((e1 (region-beginning)) (e2 (region-end)))
+	(kill-region e1 e2)
+	(insert firstchar)
+	(yank)
+	(insert (or secondchar firstchar)))
+    (let ((thing (thing-at-point 'word))
+	  (bounds (bounds-of-thing-at-point 'word)))
+      (delete-region (car bounds) (cdr bounds))
+      (insert firstchar thing (or secondchar firstchar)))))
+
+(global-set-key "\C-c\"" '(lambda () (interactive)(wrap-selection-or-word-with-chars-around "\"")))
+(global-set-key "\C-c\'" '(lambda () (interactive)(wrap-selection-or-word-with-chars-around "\'")))
+(global-set-key "\C-c\`" '(lambda () (interactive)(wrap-selection-or-word-with-chars-around "\`")))
+(global-set-key "\C-c\<" '(lambda () (interactive)(wrap-selection-or-word-with-chars-around "<" ">")))
+(global-set-key "\C-c\(" '(lambda () (interactive)(wrap-selection-or-word-with-chars-around "(" ")")))
+(global-set-key "\C-c\[" '(lambda () (interactive)(wrap-selection-or-word-with-chars-around "[" "]")))
+
+;;; Indent whole buffer or only selected region
+(defun indent-whole-buffer ()
+  "Indent the whole buffer"
+  (interactive)
+  (if (and transient-mark-mode mark-active)
+      (indent-region (region-beginning) (region-end) nil)
+    (indent-region (point-min) (point-max) nil)))
+
+(global-set-key "\M-a" 'indent-whole-buffer)
+
+(global-unset-key "\M-c")
+
+;; Insert FIXME as comment
+(defun fixme-shortcut ()
+  "Inserts a /* FIXME */ as comment of current major-mode"
+  (interactive)
+  (insert comment-start)
+  (insert "FIXME")
+  (insert comment-end)
+  ;(indent-according-to-mode)
+  )
+(global-set-key "\M-f" 'fixme-shortcut)
+
+;; Insert OUTPUT statement
+(defvar output-statement-alist
+  '(
+    (c++-mode         . '("std::cout << " " << std::endl;"))
+    (c-mode           . '("printf(" ");"))
+    (python-mode      . '("print "))
+    (php-mode         . '("echo " ";"))
+    (emacs-lisp-mode  . '("(message " ")"))
+    (perl-mode        . '("print "))
+    (sh-mode          . '("echo "))
+    ))
+(defvar errput-statement-alist
+  '(
+    (c++-mode         . '("std::cerr << " " << std::endl;"))
+    ))
+(defun cout-shortcut ()
+  "Inserts a statement that outputs something, in current major-mode"
+  (interactive)
+  (when (assoc major-mode output-statement-alist)
+    (let ((statement (eval (cdr (assoc major-mode output-statement-alist)))))
+      (insert (car statement))
+      (save-excursion
+	(when (cdr statement) (insert (car (cdr statement))))
+	)))
+  ;(indent-according-to-mode)
+)
+(defun cerr-shortcut ()
+  "Insert error output statement of current major-mode, or output statement"
+  (interactive)
+  (if (assoc major-mode errput-statement-alist)
+    (let ((statement (eval (cdr (assoc major-mode errput-statement-alist)))))
+      (insert (car statement))
+      (save-excursion (when (cdr statement) (insert (car (cdr statement))))))
+    (cout-shortcut))
+)
+(global-set-key "\C-p" 'cout-shortcut)
+(global-set-key "\M-p" 'cerr-shortcut)
+
+
+;; Ifndef Shortcut for .h
+(defun c-header-ifndef ()
+  "Inserts a standard anti mutual inclusion protection for header files."
+  (interactive)
+  (let ((fname  (upcase (file-relative-name (buffer-file-name)
+					    nil)))
+	point-debut)
+    (when fname
+      (while (string-match "\\." fname)
+	(setq fname (replace-match "_" nil nil
+				   fname)))
+      (insert (concat "#ifndef " fname "_")) (newline)
+      (insert (concat "# define " fname "_")) (newline)
+      (newline) (newline)
+      (setq point-debut (point)) (newline)
+      (newline) (newline)
+      (insert (concat "#endif /* !" fname "_ */")) (newline)
+      (goto-char point-debut))))
+(global-set-key "\C-ch" 'c-header-ifndef)
+
+
+;; Ctl-c + '+': c++ object header
+(defun cpp-obj-header ()
+  "Insert C++ patern for new object"
+  (interactive)
+  (let ((fname  (file-relative-name (buffer-file-name)
+                                            nil)))
+    (when fname
+      (while (string-match "\\.h" fname)
+	(setq fname (replace-match "" nil nil fname)))
+  (insert (concat "
+class " fname))
+(insert "
+{
+ private:
+  /// Methodes
+
+  /// Attributs
+
+ public:
+  /// Ctor & Dtor
+
+  /// Methodes
+
+  /// Attributs
+
+ protected:
+  /// Methodes
+
+  /// Attributs
+};
+")))
+)
+(global-set-key "\C-c+" 'cpp-obj-header)
+
+
+
+;;============================================================================|
+;;                              AUTO INSERT	                              |
+;;============================================================================|
+
+(defun helios-file-header ()
+  "Inserts Helios header"
+  (interactive)
+  (insert "/*
+ *
+ *
+ *	_/////               _//        _//
+ *	_//   _//            _// _/     _//
+ *	_//    _//   _//     _//        _//   _//
+ *	_//    _// _//  _//  _//_// _// _// _//  _//
+ *	_//    _//_//   _//  _//_//_/   _//_//   _//
+ *	_//   _// _//   _//  _//_//_/   _//_//   _//
+ *	_/////      _// _///_///_// _// _//  _// _///
+ *
+ *
+ *	    Romain Eslier $ Pierre-Olivier Haye
+ *
+ */") (newline)
+  )
+
+(defun newfile-template-c-header () "Inserts include guards" (interactive)
+  ;;(std-file-header)		; Epita
+  (helios-file-header)		; Helios
+  (if (string-match "\\(.h\\|.hh\\|.hxx\\)$" (buffer-file-name))
+      (progn (newline) (c-header-ifndef))))
+
+(defun newfile-template-python () "Python #!" (interactive)
+  (insert-string "#!/usr/bin/env python") (newline)
+  (insert-string "# -*- coding: iso-8859-1 -*-") (newline) (newline))
+
+(defun newfile-template-perl () "Perl #!" (interactive)
+  (insert-string "#!/usr/bin/env perl") (newline) (newline))
+
+(defun newfile-template-shell () "Shell #!" (interactive)
+  (insert-string "#! /usr/bin/env sh") (newline) (newline))
+
+(defun newfile-template-php () "PHP <?php ... ?>" (interactive)
+  (insert "<?php
+   /*
+    *                   |         __  /
+    *             __ \\  __ \\  __ \\   /   _ \\   __|
+    *             |   | | | | |   | /   (   | |
+    *             .__/ _| |_| .__/____|\\___/ _|
+    *            _|          _|
+    *
+    *   phpZor - http://trac.geektips.org/phpzor
+    *   PFE GISTR 2009
+    *
+    *   Under the GPL v2 unless otherwise noted.
+    */
+
+?>")(newline)(backward-char 4))
+
+(add-hook 'find-file-hooks 'auto-insert)
+(load-library "autoinsert")
+(setq auto-insert-query nil)
+(setq auto-insert-alist (append '(((sh-mode .  "Shell-Script") . newfile-template-shell)) auto-insert-alist))
+(setq auto-insert-alist (append '(((python-mode .  "Python") . newfile-template-python)) auto-insert-alist))
+(setq auto-insert-alist (append '(((perl-mode .  "Perl") . newfile-template-perl)) auto-insert-alist))
+(setq auto-insert-alist (append '(((c-mode .  "C") . newfile-template-c-header)) auto-insert-alist))
+(setq auto-insert-alist (append '(((c++-mode .  "C++") . newfile-template-c-header)) auto-insert-alist))
+(setq auto-insert-alist (append '(((php-mode .  "Php") . newfile-template-php)) auto-insert-alist))
+
+;;============================================================================|
+;;                          COMPILATION WINDOW                                |
+;;============================================================================|
+
+;; (setq compile-command "g++ -W -Wall -Wextra *.cc")
+(setq compile-command "make")
+(setq compilation-window-height 8)
+(setq compilation-scroll-output t)
+(setq compile-auto-highlight t)
+(setq compilation-ask-about-save nil)
+
+;;; Makes compilation window go away after 0.5s if no compile errors occured
+(setq compilation-finish-function
+      (lambda (buf str)
+        (if (string-match "exited abnormally" str)
+            (message "[COMPILATION] ERRORS, press F6 to visit - 'Faut coder juste direct la ...'")
+;          (run-at-time 0.5 nil 'delete-windows-on buf)
+          (message "[COMPILATION] GOOD! :D - 'Ca compile donc ca marche.'"))))
+
+;;; Kill off any existing debuggers before starting new one.
+(defadvice gdb (before gdb-kill-existing-debuggers activate compile)
+  "Kill any existing debugger buffers before starting debugger."
+  (dolist (my-maybe-gud-buf (buffer-list))
+    (if (equal (compare-strings
+		(buffer-name my-maybe-gud-buf) 0 4 "*gud" 0 4) t)
+	(kill-buffer my-maybe-gud-buf))))
+
+
+
+
+
+
+;;-----------------------------------------------------------------------------
+;; Do NOT modify stuff below
+
+;; Load correct file -> X or noX
+(let ((confile (if window-system "~/.conf/emacs/emacsdot_x" "~/.conf/emacs/emacsdot_nox")))
+  (if (file-exists-p confile)
+      (load-file confile)))
+
+;; Cool message
+(message "All done, %s%s" (user-login-name) ". \\o/")
