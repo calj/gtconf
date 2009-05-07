@@ -9,12 +9,9 @@
 ########################################################
 
 
-
 # RELOAD THE ZSHRC
 function re ()
 {
-#    exec env -i zsh
-
     for i in `alias | cut -d'=' -f1`;do
 	[[ "$i" != "-"   ]] &&
 	[[ "$i" != "']'" ]] &&

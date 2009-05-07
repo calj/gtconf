@@ -71,7 +71,7 @@ function ssh_anyserv ()
     user=$USER
     computer=$1
 
-    if [[ "$2" != "" ]]; then
+    if [ "$2" != "" ]; then
 	user="$2"
     fi
 

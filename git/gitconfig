@@ -1,0 +1,27 @@
+[status]
+	relativePaths = true
+
+[alias]
+	st = status
+	ci = commit
+	br = branch
+	co = checkout
+	df = diff
+	lg = log -p
+	sb = show-branch
+
+[color]
+	ui     = auto
+	branch = auto
+	diff   = auto
+	status = auto
+
+[color "branch"]
+	current = yellow
+	local   = green
+	remote  = cyan
+
+[color "status"]
+	added     = yellow
+	changed   = green
+	untracked = cyan
