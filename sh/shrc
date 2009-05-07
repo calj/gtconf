@@ -1,0 +1,9 @@
+
+# LOAD SH AND BASH FUNCTIONS
+source $GT_DIR/sh/functions.sh
+
+# LOAD COLORS VARIABLES
+load_colors
+
+
+

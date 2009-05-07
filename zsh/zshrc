@@ -1,3 +1,4 @@
+# -*- SH -*-
 ########################################################
 #                                                      #
 #       GEEKTIPS.ORG EASY CONFIGURATION SYSTEM         #
@@ -8,12 +9,6 @@
 #                                                      #
 ########################################################
 
-# LOAD SH AND BASH FUNCTIONS
-source $GT_DIR/sh/functions.sh
-source $GT_DIR/bash/functions.sh
-
-# LOAD COLORS VARIABLES
-load_colors
 
 # SETUP DEFAULT PROMPT
 setopt PROMPT_SUBST # turn on various expansions in prompts

@@ -1,0 +1,10 @@
+
+source $GT_DIR/bash/functions.sh
+
+export PS1="[$lpurple\u$std@$lblue\h$std $grey\W$std]$lgrey\$$std "
+
+
+
+
+
+

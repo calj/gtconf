@@ -88,6 +88,6 @@ function donttimeoutme()
 # INFINITY LOOP (does infinity the command)
 function infinity_loop()
 {
-    while :;do; $@;done
+    while true; do $@;done
 }
 
