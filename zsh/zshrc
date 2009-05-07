@@ -19,12 +19,6 @@ else
 fi
 RPROMPT=$'%(?.%{\e[1;30m%}%*%{$std%}.%{$lred%}Error %?%{$std%})'
 
-# ALLOWS GROUP TO SEE OUR NEW FILES
-umask 002
-
-# ADD GEEKTIPS BINARIES TO THE PATH
-export PATH=$GT_DIR/mbin:~/mbin:"$PATH":/usr/sbin:/sbin
-
 limit core 0		# No core dumps
 setopt nopromptcr	# No cr before prompt
 setopt extendedglob	# Enable awesome extended globbing like **/*

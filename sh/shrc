@@ -1,3 +1,4 @@
+# -*- SH -*-
 
 # LOAD SH AND BASH FUNCTIONS
 source $GT_DIR/sh/functions.sh
@@ -5,5 +6,9 @@ source $GT_DIR/sh/functions.sh
 # LOAD COLORS VARIABLES
 load_colors
 
+# ALLOWS GROUP TO SEE OUR NEW FILES
+umask 002
 
+# ADD GEEKTIPS BINARIES TO THE PATH
+export PATH=$GT_DIR/mbin:~/mbin:"$PATH":/usr/sbin:/sbin
 
