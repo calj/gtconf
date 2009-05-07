@@ -25,10 +25,21 @@ function load_colors ()
 # Add a key to the Authorized keys list
 function push_key ()
 {
+    KEYF=''
+
+    for f in '~/.ssh/id_dsa.pub' '~/.ssh/id_rsa.pub'; do
+	[ -f $f ] && KEYF=$f
+    done
+
+    if [ "$KEYF" -eq '' ]; then
+	echo "You have to generate a key first, try ssh-keygen"
+	return
+    fi
+
     if [ -n "$1" ]; then
-	cat ~/.ssh/id_dsa.pub | ssh "$1" "cat - >> ~/.ssh/authorized_keys"
+	cat $KEYF | ssh "$1" "cat - >> ~/.ssh/authorized_keys"
 	ssh "$1" w
-	echo "DONE"
+	echo "If your password was asked once it's DONE"
     fi
 }
 
