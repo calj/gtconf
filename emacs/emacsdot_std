@@ -128,11 +128,10 @@
 (global-set-key [(control f)] 'ffap)			;; Open file at point
 (global-set-key [M-backspace] 'backward-kill-word)	;; Delete previous word
 (global-set-key [C-backspace] 'backward-kill-word)	;; Delete previous word
+
 ;; Meta + arrows: Windmove to buffer
 (windmove-default-keybindings 'meta)
-;; Control + up/down: moves lines
-(global-set-key [C-up] 'move-line-up)
-(global-set-key [C-down] 'move-line-down)
+
 ;; Meta + Control + up/down: scroll buffer
 (global-set-key [M-S-up] 'scroll-line-down)
 (global-set-key [M-S-down] 'scroll-line-up)

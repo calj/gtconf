@@ -114,6 +114,10 @@
 ;;                                    MISC                                    |
 ;;============================================================================|
 
+;; Control + up/down: moves lines
+(global-set-key [C-up]   'move-line-up)
+(global-set-key [C-down] 'move-line-down)
+
 (normal-erase-is-backspace-mode 1)
 ;; (pc-selection-mode)			;; Breaks \M-arrows windmove ... moved to .emacs
 (mouse-avoidance-mode 'animate)		;; Move the mouse away when cursor approaches !
