@@ -9,6 +9,7 @@
 #                                                      #
 ########################################################
 
+source $GT_DIR/zsh/functions.sh
 
 # SETUP DEFAULT PROMPT
 setopt PROMPT_SUBST # turn on various expansions in prompts
