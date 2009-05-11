@@ -3,10 +3,16 @@
 ;(setq debug-on-error t)
 
 (setq load-path (cons (concat (getenv "GT_DIR") "/emacs") load-path))
+(setq load-path (cons (concat (getenv "GT_DIR") "/emacs/ruby-mode") load-path))
 
 ;;============================================================================|
 ;;                               CUSTOM PACKAGES                              |
 ;;============================================================================|
+
+;; -- ruby mode --
+(autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
+(setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
 
 ;; -- php mode --
 (require 'php-mode)
@@ -15,7 +21,7 @@
 (eval-after-load `php-mode
   `(progn
      (add-hook 'php-mode-user-hook
-	       '(lambda() (setq tab-width 4 c-basic-offset 4)))
+	       '(lambda() (setq tab-width 2 c-basic-offset 4)))
      ))
 
 ;; -- css mode --

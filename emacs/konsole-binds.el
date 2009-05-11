@@ -4,7 +4,6 @@
 ;; Project: Geektips.Org sharing dot files system
 ;; Author:  <camille.meulien@gmail.com>
 
-(provide 'konsole-binds)
 
 (define-key function-key-map "\e[H"    [C-home])
 (define-key function-key-map "\e[F"    [C-end])
@@ -18,4 +17,8 @@
 (define-key function-key-map "\e\e[B"  [M-down])
 
 
-;;; konsole-binds.el ends here
+(provide 'konsole-binds)
+
+
+
+
