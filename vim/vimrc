@@ -1,9 +1,34 @@
-set nocompatible
+set nocompatible	
 set bs=2
 set background=dark
 syntax on
 set paste
 set showcmd
 set ruler
-"set statusline=%F%m\ %r\ Line:%l\/%L,%c\ %p%%
+"set   cursorline
+
+
+" Recherche -----------------------------------------------
+set  ignorecase		" Ignore la case
+"set  smartcase		" OU pas
+set   incsearch		" Curseur se deplace lors d'une recherche
+
+
+" Tabulations ---------------------------------------------
+set  tabstop =4
+set  shiftwidth =4
+set  softtabstop =4
+"set   expandtab     "supprime les tabulations et met des espaces
+
+
+" Complétion ----------------------------------------------
+set wildmenu    "affiche le menu
+set wildmode =list:longest,list:full    "affiche toutes les possibilités
+set wildignore =*.o,*.r,*.so,*.sl,*.tar,*.tgz    "ignorer certains types de fichiers pour la complétion des includes
+
+
+" Vim correcteur orthographique --------------------------- 
+set spelllang =en,fr
+set spell
+set spellsuggest =5
 
