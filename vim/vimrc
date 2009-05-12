@@ -1,0 +1,9 @@
+set nocompatible
+set bs=2
+set background=dark
+syntax on
+set paste
+set showcmd
+set ruler
+"set statusline=%F%m\ %r\ Line:%l\/%L,%c\ %p%%
+
