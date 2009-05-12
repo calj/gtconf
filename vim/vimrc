@@ -1,34 +1,64 @@
-set nocompatible	
-set bs=2
-set background=dark
+" first clear any existing autocommands:
+" autocmd!
+
+set nocompatible	" no compatible with vi
+set bs=2			" Backspace
+set background=dark " 
 syntax on
-set paste
-set showcmd
-set ruler
+set paste			" INSERT mode paste (!)
+set showcmd			" Complete cmd (:)
+set ruler			" Show where is cursor
+set noerrorbells	" No bells
 "set   cursorline
 
+" Edit ----------------------------------------------------
+"set matchtime=2     " pendant 2 / 10 of seconds
+"set matchpairs=(:),[:],{:},<:>
 
-" Recherche -----------------------------------------------
-set  ignorecase		" Ignore la case
-"set  smartcase		" OU pas
-set   incsearch		" Curseur se deplace lors d'une recherche
+
+" Color ---------------------------------------------------
+colorscheme peachpuff 
+
+
+" Search --------------------------------------------------
+set  ignorecase		" Ignore case
+"set  smartcase		" OR not
+set   incsearch		" Cursor is moving
 
 
 " Tabulations ---------------------------------------------
-set  tabstop =4
-set  shiftwidth =4
-set  softtabstop =4
-"set   expandtab     "supprime les tabulations et met des espaces
+set smarttab		" Smart tab for code
+set tabstop =4		" Tab of 4 spaces
+set shiftwidth =4
+set softtabstop =4
+"set   expandtab    " No tabulation but spaces
+autocmd FileType html,xhtml,xml,css,smarty setl tabstop=2		" Idem but for another filetype
+autocmd FileType html,xhtml,xml,css,smarty setl softtabstop=2	"  "
+autocmd FileType html,xhtml,xml,css,smarty setl shiftwidth=2	"  "
 
 
-" Complétion ----------------------------------------------
-set wildmenu    "affiche le menu
-set wildmode =list:longest,list:full    "affiche toutes les possibilités
-set wildignore =*.o,*.r,*.so,*.sl,*.tar,*.tgz    "ignorer certains types de fichiers pour la complétion des includes
+" Completion ----------------------------------------------
+set wildmenu    " Show menu
+set wildmode =list:longest,list:full			" Show all propositions 
+set wildignore =*.o,*.r,*.so,*.sl,*.tar,*.tgz   " Ignore some file type for completion
+iab #i #include									" Replace one word by another
 
 
-" Vim correcteur orthographique --------------------------- 
+" Vim Spell check ------------------------------------------ 
 set spelllang =en,fr
 set spell
 set spellsuggest =5
+nnoremap <F5> :setlocal spell spelllang=fr<CR>
+nnoremap <F6> :setlocal spell spelllang=en<CR>
+nnoremap <F8> :setlocal nospell<CR>
+
+" Smart completion -----------------------------------------
+autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType c setlocal omnifunc=ccomplete#Complete
+noremap <C-Space> <C-X><C-O>
 
