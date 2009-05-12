@@ -32,7 +32,7 @@ set tabstop =4		" Tab of 4 spaces
 set shiftwidth =4
 set softtabstop =4
 "set   expandtab    " No tabulation but spaces
-autocmd FileType html,xhtml,xml,css,smarty setl tabstop=2		" Idem but for another filetype
+autocmd FileType html,xhtml,xml,css,smarty setl tabstop=2		" Idem but for another file type
 autocmd FileType html,xhtml,xml,css,smarty setl softtabstop=2	"  "
 autocmd FileType html,xhtml,xml,css,smarty setl shiftwidth=2	"  "
 
@@ -45,11 +45,12 @@ iab #i #include									" Replace one word by another
 
 
 " Vim Spell check ------------------------------------------ 
-set spelllang =en,fr
-set spell
+" set spelllang =en
+" set spell
 set spellsuggest =5
-nnoremap <F5> :setlocal spell spelllang=fr<CR>
-nnoremap <F6> :setlocal spell spelllang=en<CR>
+nnoremap <F5> :setlocal spell spelllang=en<CR>	" Spell check in ENglish
+nnoremap <F6> :setlocal spell spelllang=fr<CR>	" Spell check in FRench  ( if fr.utf-8.spl is installed )
+nnoremap <F7> :setlocal spell spelllang=de<CR>	" Spell check in DgErman ( if *.spl is installed )
 nnoremap <F8> :setlocal nospell<CR>
 
 " Smart completion -----------------------------------------
