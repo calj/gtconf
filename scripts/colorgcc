@@ -91,12 +91,28 @@
 use Term::ANSIColor;
 use IPC::Open3;
 
+sub whichBinary
+{
+    my $binName = shift(@_);
+    $file = "";
+
+    foreach my $wich (split / /, `whereis $binName` )
+    {
+	if ( $wich =~ /\/usr\//)
+	{
+	    $file = $wich;
+	    last;
+	}
+    }
+    return  $file;
+}
+
 sub initDefaults
 {
-   $compilerPaths{"gcc"} = "/usr/local/bin/gcc";
-   $compilerPaths{"g++"} = "/usr/bin/g++";
-   $compilerPaths{"cc"}  = "/usr/bin/cc";
-   $compilerPaths{"c++"} = "/usr/local/bin/c++";
+   $compilerPaths{"gcc"} = whichBinary("gcc");
+   $compilerPaths{"g++"} = whichBinary("g++");
+   $compilerPaths{"cc"}  = whichBinary("cc");
+   $compilerPaths{"c++"} = whichBinary("c++");
 
    $nocolor{"dumb"} = "true";
 

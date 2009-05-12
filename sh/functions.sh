@@ -43,6 +43,12 @@ function push_key ()
     fi
 }
 
+# COLOR
+function color ()
+{
+    sed 's/\('$1'\)/'$lred'\1'$std'/'
+}
+
 # CALCULATOR
 function calc ()
 {
