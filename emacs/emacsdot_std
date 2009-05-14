@@ -11,8 +11,8 @@
 
 ;; -- ruby mode --
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
-(setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
-(setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rhtml$" . html-mode))
 
 ;; -- php mode --
 (require 'php-mode)
@@ -62,6 +62,7 @@
 ;; -- Pabbrev -- Predictive suggestions
 (require 'pabbrev)
 (add-hook 'text-mode-hook 'pabbrev-mode 1)
+(add-hook 'fundamental-mode 'pabbrev-mode 1)
 ;(add-hook 'c-mode-common-hook 'pabbrev-mode 1)
 (eval-after-load `pabbrev
   `(progn
@@ -142,6 +143,9 @@
 (global-set-key [M-S-up] 'scroll-line-down)
 (global-set-key [M-S-down] 'scroll-line-up)
 
+;; Fold code after column at point (second use deactivates it)
+(global-set-key [(control x)($)] 'selective-display-on-column-at-point)
+
 (custom-set-variables
   ;; custom-set-variables was added by Custom -- don't edit or cut/paste it!
   ;; Your init file should contain only one such instance.
@@ -203,6 +207,14 @@
   "Scrolls buffer x lines down"
   (interactive)
   (scroll-down (or n 1)))
+
+(defun selective-display-on-column-at-point ()
+  "Activate selective display based on the column at point"
+  (interactive)
+  (set-selective-display
+   (if selective-display
+       nil
+     (+ 1 (current-column)))))
 
 
 ;=============================================================================|
@@ -268,6 +280,7 @@
 (defvar errput-statement-alist
   '(
     (c++-mode         . '("std::cerr << " " << std::endl;"))
+    (c-mode           . '("fprintf(stderr, " ");"))
     ))
 (defun cout-shortcut ()
   "Inserts a statement that outputs something, in current major-mode"
@@ -453,7 +466,7 @@ class " fname))
 ;; Do NOT modify stuff below
 
 ;; Load correct file -> X or noX
-(let ((confile (if window-system (concat (getenv "GT_DIR") "/emacs/emacsdot_x") (concat (getenv "GT_DIR") "/emacs/emacsdot_nox"))))
+(let ((confile (concat (getenv "GT_DIR") (if window-system "/emacs/emacsdot_x" "/emacs/emacsdot_nox"))))
   (if (file-exists-p confile)
       (load-file confile)))
 
