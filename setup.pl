@@ -192,6 +192,14 @@ my @modules =
 	 Depend		=>	"",
 	 IncludeMethod	=>	"Copy",
      },
+     {
+	 Name		=>	"Ruby wirble",
+	 Description	=>	"Activate the syntax color in irb (need wirble)",
+	 Checked	=>	"Off",
+	 DotFiles	=>	".irbrc",
+	 File		=>	"ruby/irbrc_wirble.rb",
+	 Depend		=>	"",
+     },
 
     );
 
@@ -277,6 +285,10 @@ sub getIncludeSyntax
         if filereadable(\"$incfile\")
             source $incfile
         endif\n";
+    }
+    elsif ( $dotfile =~ /rb/i )
+    {
+	$syntax = "require \"$incfile\"";
     }
     else
     {
