@@ -11,3 +11,5 @@ umask 002
 
 # ADD GEEKTIPS BINARIES TO THE PATH
 export PATH=$GT_DIR/mbin:~/mbin:"$PATH":/usr/sbin:/sbin
+
+export RUBYOPT="rubygems"
