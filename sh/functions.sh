@@ -27,11 +27,11 @@ function push_key ()
 {
     KEYF=''
 
-    for f in '~/.ssh/id_dsa.pub' '~/.ssh/id_rsa.pub'; do
-	[ -f $f ] && KEYF=$f
+    for f in ~/.ssh/id_dsa.pub ~/.ssh/id_rsa.pub; do
+	test -f $f && KEYF=$f
     done
 
-    if [ "$KEYF" -eq '' ]; then
+    if [ "$KEYF" = '' ]; then
 	echo "You have to generate a key first, try ssh-keygen"
 	return
     fi
@@ -66,6 +66,7 @@ function clean ()
 {
     rm -f .*~
     rm -f *~
+    rm -f .\#*
     rm -f \#*\#
 
     return 0
