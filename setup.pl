@@ -268,9 +268,13 @@ sub getIncludeSyntax
     my ($dotfile, $incfile) = @_;
     my $syntax = '';
 
-    if ( $dotfile =~ /sh/i )
+    if ( $dotfile =~ /(?:z|ba)sh/i )
     {
-	$syntax = "source $incfile\n";
+	$syntax = "[[ -f \"$incfile\" ]] && source \"$incfile\"";
+    }
+    elsif ( $dotfile =~ /sh/i )
+    {
+	$syntax = "test -f \"$incfile\" && source \"$incfile\"";
     }
     elsif ( $dotfile =~ /emacs/i )
     {
