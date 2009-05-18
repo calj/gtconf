@@ -73,41 +73,42 @@
 ;;                                    MISC                                    |
 ;;============================================================================|
 
-(setq inhibit-startup-message t)	;; Skip startup infoscreen
+(setq inhibit-startup-message t)         ;; Skip startup infoscreen
 (setq frame-title-format '("%b" (buffer-file-name ": %f")))
-(fset 'yes-or-no-p 'y-or-n-p)		;; yes/no -> y/n
-(column-number-mode t)			;; Show column number in modeline
-(show-paren-mode t)			;; Highlight matching paren
-(global-font-lock-mode t)		;; Coloration ON
-(transient-mark-mode t)			;; Highlight selected region
-(mouse-wheel-mode t)			;; Enable mouse wheel
-(dynamic-completion-mode t)		;; ??? but sounds cool
-(menu-bar-mode 0)			;; Remove clickodrome menubar
-(display-time)				;; Time in modeline
-;(display-battery-mode t)		;; Battery in modeline ==> very slow <==
-(which-function-mode t)			;; Display current function in modeline
-;(size-indication-mode t)		;; File size in modeline
-(setq display-time-24hr-format t)	;; Set 24h format time
-;(setq display-time-day-and-date t)	;; Show date along with time
-(setq font-lock-maximum-decoration t)	;; Maximum coloration
-(setq delete-auto-save-files t)		;; ???
-(setq delete-old-versions t)		;; ???
-(setq ring-bell-function 'ignore)	;; Shut The Fuck Up
-(setq make-backup-files nil)		;; Do not make backup files (caca~)
-(setq scroll-step 3)			;; Scroll 3 lines when reaching top/end of buffer
-(setq next-screen-context-lines 1)	;; Page Up/Down conserves 1 line from previous page
-(setq mouse-yank-at-point t)		;; Paste at cursor rather than mouse
-(setq scroll-preserve-screen-position t);; Scrolling up and down will return to initial position
-(global-auto-revert-mode t)		;; Auto reload file when it changed ?
-(setq kill-whole-line t)		;; Ctrl-K kills whole line when cursor is at begining
-(if window-system (pc-selection-mode))	;; NE PAS METTRE DANS _X ou _NOX - ca marche pas sinon...
-(delete-selection-mode t)		;; Del and Backspace delete current selection
-(toggle-uniquify-buffer-names)		;; Renames ambiguous buffers: Makefile<2> -> src/Makefile
+(fset 'yes-or-no-p 'y-or-n-p)            ;; yes/no -> y/n
+(column-number-mode t)                   ;; Show column number in modeline
+(show-paren-mode t)                      ;; Highlight matching paren
+(global-font-lock-mode t)                ;; Coloration ON
+(transient-mark-mode t)                  ;; Highlight selected region
+(mouse-wheel-mode t)                     ;; Enable mouse wheel
+(dynamic-completion-mode t)              ;; ??? but sounds cool
+(menu-bar-mode 0)                        ;; Remove clickodrome menubar
+(display-time)                           ;; Time in modeline
+;(display-battery-mode t)                ;; Battery in modeline ==> very slow <==
+(which-function-mode t)                  ;; Display current function in modeline
+;(size-indication-mode t)                ;; File size in modeline
+(setq display-time-24hr-format t)        ;; Set 24h format time
+;(setq display-time-day-and-date t)      ;; Show date along with time
+(setq font-lock-maximum-decoration t)    ;; Maximum coloration
+(setq-default show-trailing-whitespace t);; Highlight trailing whitespaces
+(setq delete-auto-save-files t)          ;; ???
+(setq delete-old-versions t)             ;; ???
+(setq ring-bell-function 'ignore)        ;; Shut The Fuck Up
+(setq make-backup-files nil)             ;; Do not make backup files (caca~)
+(setq scroll-step 3)                     ;; Scroll 3 lines when reaching top/end of buffer
+(setq next-screen-context-lines 1)       ;; Page Up/Down conserves 1 line from previous page
+(setq mouse-yank-at-point t)             ;; Paste at cursor rather than mouse
+(setq scroll-preserve-screen-position t) ;; Scrolling up and down will return to initial position
+(global-auto-revert-mode t)              ;; Auto reload file when it changed ?
+(setq kill-whole-line t)                 ;; Ctrl-K kills whole line when cursor is at begining
+(if window-system (pc-selection-mode))   ;; NE PAS METTRE DANS _X ou _NOX - ca marche pas sinon...
+(delete-selection-mode t)                ;; Del and Backspace delete current selection
+(toggle-uniquify-buffer-names)           ;; Renames ambiguous buffers: Makefile<2> -> src/Makefile
 
 ;; abbreviations
-(setq abbrev-file-name (concat (getenv "GT_DIR") "/emacs/.abbrev_defs"))	;; Abbreviations - see M-x edit-abbrevs
-(abbrev-mode 1)						;; Activate abbrev-mode for ALL modes
-(setq default-abbrev-mode t)				;; Activate abbrev-mode (again, just in case)
+(setq abbrev-file-name (concat (getenv "GT_DIR") "/emacs/.abbrev_defs")) ;; Abbreviations - see M-x edit-abbrevs
+(abbrev-mode 1)                          ;; Activate abbrev-mode for ALL modes
+(setq default-abbrev-mode t)             ;; Activate abbrev-mode (again, just in case)
 
 ;; forbid moving point into read-only part of the prompt
 (plist-put minibuffer-prompt-properties 'point-entered 'minibuffer-avoid-prompt)
