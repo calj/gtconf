@@ -66,6 +66,7 @@ function clean ()
 {
     rm -f .*~
     rm -f *~
+    rm -f .\#*
     rm -f \#*\#
 
     return 0
