@@ -173,6 +173,11 @@
 	    (c-set-offset 'substatement-open '0)
 	    ))
 
+;; Easily switch between source and header file using [C-c o]
+(add-hook 'c-mode-common-hook
+	  (lambda()
+	    (local-set-key (kbd "C-c o") 'ff-find-other-file)))
+
 ;;============================================================================|
 ;;                               MISC FUNCTIONS                               |
 ;;============================================================================|
