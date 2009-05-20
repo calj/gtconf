@@ -376,21 +376,17 @@ class " fname))
 (defun helios-file-header ()
   "Inserts Helios header"
   (interactive)
-  (insert "/*
- *
- *
- *	_/////               _//        _//
- *	_//   _//            _// _/     _//
- *	_//    _//   _//     _//        _//   _//
- *	_//    _// _//  _//  _//_// _// _// _//  _//
- *	_//    _//_//   _//  _//_//_/   _//_//   _//
- *	_//   _// _//   _//  _//_//_/   _//_//   _//
- *	_/////      _// _///_///_// _// _//  _// _///
- *
- *
- *	    Romain Eslier $ Pierre-Olivier Haye
- *
- */") (newline)
+  (insert "  /**
+   *   _____     _ _            _____         _           _         _
+   *  |  |  |___| |_|___ ___   |_   _|___ ___| |_ ___ ___| |___ ___|_|___ ___
+   *  |     | -_| | | . |_ -|    | | | -_|  _|   |   | . | | . | . | | -_|_ -|
+   *  |__|__|___|_|_|___|___|    |_| |___|___|_|_|_|_|___|_|___|_  |_|___|___|
+   *                                                           |___|
+   *
+   *  Copyright (C) 2009 Helios Technologies SARL
+   *
+   */
+") (newline)
   )
 
 (defun newfile-template-c-header () "Inserts include guards" (interactive)
@@ -411,18 +407,16 @@ class " fname))
 
 (defun newfile-template-php () "PHP <?php ... ?>" (interactive)
   (insert "<?php
-   /*
-    *                   |         __  /
-    *             __ \\  __ \\  __ \\   /   _ \\   __|
-    *             |   | | | | |   | /   (   | |
-    *             .__/ _| |_| .__/____|\\___/ _|
-    *            _|          _|
-    *
-    *   phpZor - http://trac.geektips.org/phpzor
-    *   PFE GISTR 2009
-    *
-    *   Under the GPL v2 unless otherwise noted.
-    */
+  /**
+   *   _____     _ _            _____         _           _         _
+   *  |  |  |___| |_|___ ___   |_   _|___ ___| |_ ___ ___| |___ ___|_|___ ___
+   *  |     | -_| | | . |_ -|    | | | -_|  _|   |   | . | | . | . | | -_|_ -|
+   *  |__|__|___|_|_|___|___|    |_| |___|___|_|_|_|_|___|_|___|_  |_|___|___|
+   *                                                           |___|
+   *
+   *  Copyright (C) 2009 Helios Technologies SARL
+   *
+   */
 
 ?>")(newline)(backward-char 4))
 
