@@ -7,5 +7,5 @@
 ########################################################
 
 
-alias xpdf="xpdf -paper A4"
+alias xpdf="xpdf -z page -paper A4"
 
