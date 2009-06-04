@@ -13,6 +13,7 @@ umask 002
 export PATH=$GT_DIR/mbin:~/mbin:"$PATH":/usr/sbin:/sbin
 
 
+# HELIOS CUSTOMIZATION
 JAVA_HOME=/opt/java
 
 if [ -d $JAVA_HOME ]; then
@@ -21,3 +22,4 @@ if [ -d $JAVA_HOME ]; then
 fi
 
 export RUBYOPT="rubygems"
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'/usr/local/lib/'
