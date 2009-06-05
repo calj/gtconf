@@ -8,6 +8,16 @@
 #                                                      #
 ########################################################
 
+# CHECK DEPENDANCES
+function dependances()
+{
+    while [ "$1" != "" ]; do
+	where $1 2>&1 > /dev/null || return 1
+	shift
+    done
+    return 0
+}
+
 # LOAD BASIC SHELL COLORS
 function load_colors ()
 {
@@ -23,43 +33,51 @@ function load_colors ()
 }
 
 # Add a key to the Authorized keys list
-function push_key ()
-{
-    KEYF=''
+if dependances ssh; then
+    function push_key ()
+    {
+	KEYF=''
 
-    for f in ~/.ssh/id_dsa.pub ~/.ssh/id_rsa.pub; do
-	test -f $f && KEYF=$f
-    done
+	for f in ~/.ssh/id_dsa.pub ~/.ssh/id_rsa.pub; do
+	    test -f $f && KEYF=$f
+	done
 
-    if [ "$KEYF" = '' ]; then
-	echo "You have to generate a key first, try ssh-keygen"
-	return
-    fi
+	if [ "$KEYF" = '' ]; then
+	    echo "You have to generate a key first, try ssh-keygen"
+	    return
+	fi
 
-    if [ -n "$1" ]; then
-	cat $KEYF | ssh "$1" "cat - >> ~/.ssh/authorized_keys"
-	ssh "$1" w
-	echo "If your password was asked once it's DONE"
-    fi
-}
+	if [ -n "$1" ]; then
+	    cat $KEYF | ssh "$1" "cat - >> ~/.ssh/authorized_keys"
+	    ssh "$1" w
+	    echo "If your password was asked once it's DONE"
+	fi
+    }
+fi
 
 # COLOR
-function color ()
-{
-    sed 's/\('$1'\)/'$lred'\1'$std'/'
-}
+if dependances sed; then
+    function color ()
+    {
+	sed 's/\('$1'\)/'$lred'\1'$std'/'
+    }
+fi
 
 # CALCULATOR
-function calc ()
-{
-    echo "$*" | bc -l
-}
+if dependances bc; then
+    function calc ()
+    {
+	echo "$*" | bc -l
+    }
+fi
 
 # MAKE A TARBALL
-function mktar ()
-{
-    tar cvjf "$1.tar.bz2" $@
-}
+if dependances tar; then
+    function mktar ()
+    {
+	tar cvjf "$1.tar.bz2" $@
+    }
+fi
 
 # CLEAN A DIRECTORY
 function clean ()
@@ -73,24 +91,28 @@ function clean ()
 }
 
 # SSH TO ANY SERV YOU WANT: `sshanyserv ip login`
-function ssh_anyserv ()
-{
-    user=$USER
-    computer=$1
-
-    if [ "$2" != "" ]; then
-	user="$2"
-    fi
-
-    echo ssh "$user"@"$computer"
-    ssh "$user"@"$computer"
-}
+if dependances ssh; then
+    function ssh_anyserv ()
+    {
+	user=$USER
+	computer=$1
+	
+	if [ "$2" != "" ]; then
+	    user="$2"
+	fi
+	
+	echo ssh "$user"@"$computer"
+	ssh "$user"@"$computer"
+    }
+fi
 
 # DISABLE TIMEOUTS
-function donttimeoutme()
-{
-    while :;do echo -n "\a"; sleep 60; done &
-}
+if dependances echo true sleep; then
+    function donttimeoutme()
+    {
+	while true;do echo -n "\a"; sleep 60; done &
+    }
+fi
 
 # INFINITY LOOP (does infinity the command)
 function infinity_loop()
@@ -98,3 +120,28 @@ function infinity_loop()
     while true; do $@;done
 }
 
+if dependances md5sum; then
+# GENERATE A DIGUEST EASILY
+    function diguest_generator()
+    {
+	echo -n "user:"	&&    read DIGEST_USER
+	echo -n "digest:"	&&    read DIGEST_DIGEST
+	echo -n "pass:"	&&    read DIGEST_PASS
+	
+	ENCODED_PASS=$(echo -n $DIGEST_USER:$DIGEST_DIGEST:$DIGEST_PASS | md5sum | cut -d' ' -f1)
+	echo $DIGEST_USER:$DIGEST_DIGEST:$ENCODED_PASS
+    }
+fi
+
+
+# RELOAD THE SHRC
+function re()
+{
+    for i in `alias | cut -d'=' -f1`;do
+	[ "$i" != "-"   ] &&
+	[ "$i" != "']'" ] &&
+	unalias $i
+    done
+
+    source ~/.`basename $SHELL`rc
+}
