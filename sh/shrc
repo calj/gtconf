@@ -22,4 +22,5 @@ if [ -d $JAVA_HOME ]; then
 fi
 
 export RUBYOPT="rubygems"
+export RUBYLIB=$RUBYLIB:'/usr/local/lib'
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'/usr/local/lib/'
