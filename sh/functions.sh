@@ -12,7 +12,7 @@
 function dependances()
 {
     while [ "$1" != "" ]; do
-	where $1 2>&1 > /dev/null || return 1
+	which $1 2>&1 > /dev/null || return 1
 	shift
     done
     return 0
@@ -127,7 +127,7 @@ if dependances md5sum; then
 	echo -n "user:"	&&    read DIGEST_USER
 	echo -n "digest:"	&&    read DIGEST_DIGEST
 	echo -n "pass:"	&&    read DIGEST_PASS
-	
+
 	ENCODED_PASS=$(echo -n $DIGEST_USER:$DIGEST_DIGEST:$DIGEST_PASS | md5sum | cut -d' ' -f1)
 	echo $DIGEST_USER:$DIGEST_DIGEST:$ENCODED_PASS
     }
@@ -140,7 +140,7 @@ function re()
     for i in `alias | cut -d'=' -f1`;do
 	[ "$i" != "-"   ] &&
 	[ "$i" != "']'" ] &&
-	unalias $i
+	alias $i=$i
     done
 
     source ~/.`basename $SHELL`rc
