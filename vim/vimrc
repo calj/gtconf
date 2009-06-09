@@ -17,7 +17,7 @@ set noerrorbells	" No bells
 
 
 " Color ---------------------------------------------------
-colorscheme peachpuff 
+colorscheme ron "peachpuff 
 
 
 " Search --------------------------------------------------
@@ -27,14 +27,14 @@ set   incsearch		" Cursor is moving
 
 
 " Tabulations ---------------------------------------------
-set smarttab		" Smart tab for code
-set tabstop =4		" Tab of 4 spaces
-set shiftwidth =4
-set softtabstop =4
+" set smarttab		" Smart tab for code
+set tabstop =2		" Tab of 4 spaces
+set shiftwidth =2
+set softtabstop =2
 "set   expandtab    " No tabulation but spaces
-autocmd FileType html,xhtml,xml,css,smarty setl tabstop=2		" Idem but for another file type
-autocmd FileType html,xhtml,xml,css,smarty setl softtabstop=2	"  "
-autocmd FileType html,xhtml,xml,css,smarty setl shiftwidth=2	"  "
+autocmd FileType html,xhtml,xml,css,smarty,rb setl tabstop=2		" Idem but for another file type
+autocmd FileType html,xhtml,xml,css,smarty,rb setl softtabstop=2	"  "
+autocmd FileType html,xhtml,xml,css,smarty,rb setl shiftwidth=2	"  "
 
 
 " Completion ----------------------------------------------
@@ -62,4 +62,5 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType c setlocal omnifunc=ccomplete#Complete
 noremap <C-Space> <C-X><C-O>
+
 
