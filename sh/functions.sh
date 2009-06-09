@@ -48,7 +48,7 @@ if dependances ssh; then
 	fi
 
 	if [ -n "$1" ]; then
-	    cat $KEYF | ssh "$1" "cat - >> ~/.ssh/authorized_keys"
+	    cat $KEYF | ssh "$1" "[ ! -d ~/.ssh ] && mkdir ~/.ssh; cat - >> ~/.ssh/authorized_keys"
 	    ssh "$1" w
 	    echo "If your password was asked once it's DONE"
 	fi
