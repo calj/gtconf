@@ -168,6 +168,14 @@ my @modules =
 	 Depend		=>	"Zsh Bash Sh",
      },
      {
+	 Name		=>	"Zsh Module 14",
+	 Description	=>	"Helios Tech Aliases",
+	 Checked	=>	"On",
+	 DotFiles	=>	".zshrc",
+	 File		=>	"zsh/modules/alias_helios.sh",
+	 Depend		=>	"Zsh Bash Sh",
+     },
+     {
 	 Name		=>	"Emacs",
 	 Description	=>	"Emacs Gtconf",
 	 Checked	=>	"On",

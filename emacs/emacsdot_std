@@ -77,7 +77,6 @@
 ;;============================================================================|
 ;;                                    MISC                                    |
 ;;============================================================================|
-
 (setq inhibit-startup-message t)         ;; Skip startup infoscreen
 (setq frame-title-format '("%b" (buffer-file-name ": %f")))
 (fset 'yes-or-no-p 'y-or-n-p)            ;; yes/no -> y/n
@@ -95,7 +94,7 @@
 (setq display-time-24hr-format t)        ;; Set 24h format time
 ;(setq display-time-day-and-date t)      ;; Show date along with time
 (setq font-lock-maximum-decoration t)    ;; Maximum coloration
-(setq-default show-trailing-whitespace t);; Highlight trailing whitespaces
+;(setq-default show-trailing-whitespace t);; Highlight trailing whitespaces
 (setq delete-auto-save-files t)          ;; ???
 (setq delete-old-versions t)             ;; ???
 (setq ring-bell-function 'ignore)        ;; Shut The Fuck Up
@@ -381,21 +380,17 @@ class " fname))
 (defun helios-file-header ()
   "Inserts Helios header"
   (interactive)
-  (insert "/*
- *
- *
- *	_/////               _//        _//
- *	_//   _//            _// _/     _//
- *	_//    _//   _//     _//        _//   _//
- *	_//    _// _//  _//  _//_// _// _// _//  _//
- *	_//    _//_//   _//  _//_//_/   _//_//   _//
- *	_//   _// _//   _//  _//_//_/   _//_//   _//
- *	_/////      _// _///_///_// _// _//  _// _///
- *
- *
- *	    Romain Eslier $ Pierre-Olivier Haye
- *
- */") (newline)
+  (insert "  /**
+   *   _____     _ _            _____         _           _         _
+   *  |  |  |___| |_|___ ___   |_   _|___ ___| |_ ___ ___| |___ ___|_|___ ___
+   *  |     | -_| | | . |_ -|    | | | -_|  _|   |   | . | | . | . | | -_|_ -|
+   *  |__|__|___|_|_|___|___|    |_| |___|___|_|_|_|_|___|_|___|_  |_|___|___|
+   *                                                           |___|
+   *
+   *  Copyright (C) 2009 Helios Technologies SARL
+   *
+   */
+") (newline)
   )
 
 (defun newfile-template-c-header () "Inserts include guards" (interactive)
@@ -416,18 +411,16 @@ class " fname))
 
 (defun newfile-template-php () "PHP <?php ... ?>" (interactive)
   (insert "<?php
-   /*
-    *                   |         __  /
-    *             __ \\  __ \\  __ \\   /   _ \\   __|
-    *             |   | | | | |   | /   (   | |
-    *             .__/ _| |_| .__/____|\\___/ _|
-    *            _|          _|
-    *
-    *   phpZor - http://trac.geektips.org/phpzor
-    *   PFE GISTR 2009
-    *
-    *   Under the GPL v2 unless otherwise noted.
-    */
+  /**
+   *   _____     _ _            _____         _           _         _
+   *  |  |  |___| |_|___ ___   |_   _|___ ___| |_ ___ ___| |___ ___|_|___ ___
+   *  |     | -_| | | . |_ -|    | | | -_|  _|   |   | . | | . | . | | -_|_ -|
+   *  |__|__|___|_|_|___|___|    |_| |___|___|_|_|_|_|___|_|___|_  |_|___|___|
+   *                                                           |___|
+   *
+   *  Copyright (C) 2009 Helios Technologies SARL
+   *
+   */
 
 ?>")(newline)(backward-char 4))
 

@@ -11,3 +11,19 @@ umask 002
 
 # ADD GEEKTIPS BINARIES TO THE PATH
 export PATH=$GT_DIR/mbin:~/mbin:"$PATH":/usr/sbin:/sbin
+
+# HELIOS CUSTOMIZATION
+
+JAVA_HOME=/opt/java
+
+if [ -d $JAVA_HOME ]; then
+    PATH=$PATH:$JAVA_HOME/bin
+    export JAVA_HOME
+fi
+
+RABBIT_PATH='/usr/lib/erlang/lib/rabbitmq_server-1.5.5/sbin/'
+
+export RUBYOPT="rubygems"
+export RUBYLIB=$RUBYLIB:'/usr/local/lib'
+export PATH=$PATH$(test -d $RABBIT_PATH && echo :$RABBIT_PATH)
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'/usr/local/lib/'
