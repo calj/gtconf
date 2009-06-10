@@ -143,5 +143,5 @@ function re()
 	alias $i=$i
     done
 
-    source ~/.`basename $SHELL`rc
+    source /etc/profile
 }
