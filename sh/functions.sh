@@ -9,7 +9,7 @@
 ########################################################
 
 # CHECK DEPENDANCES
-function dependances()
+function require()
 {
     while [ "$1" != "" ]; do
 	which $1 2>&1 > /dev/null || return 1
@@ -33,7 +33,7 @@ function load_colors ()
 }
 
 # Add a key to the Authorized keys list
-if dependances ssh; then
+if require ssh; then
     function push_key ()
     {
 	KEYF=''
@@ -56,15 +56,15 @@ if dependances ssh; then
 fi
 
 # COLOR
-if dependances sed; then
+if require sed; then
     function color ()
     {
-	sed 's/\('$1'\)/'$lred'\1'$std'/'
+	sed 's/\('$1'\)/'$lred'\1'$std'/g'
     }
 fi
 
 # CALCULATOR
-if dependances bc; then
+if require bc; then
     function calc ()
     {
 	echo "$*" | bc -l
@@ -72,7 +72,7 @@ if dependances bc; then
 fi
 
 # MAKE A TARBALL
-if dependances tar; then
+if require tar; then
     function mktar ()
     {
 	tar cvjf "$1.tar.bz2" $@
@@ -91,7 +91,7 @@ function clean ()
 }
 
 # SSH TO ANY SERV YOU WANT: `sshanyserv ip login`
-if dependances ssh; then
+if require ssh; then
     function ssh_anyserv ()
     {
 	user=$USER
@@ -107,7 +107,7 @@ if dependances ssh; then
 fi
 
 # DISABLE TIMEOUTS
-if dependances echo true sleep; then
+if require echo true sleep; then
     function donttimeoutme()
     {
 	while true;do echo -n "\a"; sleep 60; done &
@@ -120,9 +120,9 @@ function infinity_loop()
     while true; do $@;done
 }
 
-if dependances md5sum; then
-# GENERATE A DIGUEST EASILY
-    function diguest_generator()
+if require md5sum; then
+# GENERATE A DIGEST EASILY
+    function digest_generator()
     {
 	echo -n "user:"	&&    read DIGEST_USER
 	echo -n "digest:"	&&    read DIGEST_DIGEST
