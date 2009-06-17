@@ -23,7 +23,7 @@ function re ()
 
     autoload -U zrecompile
     [[ -f ~/.zshenv ]] && zrecompile -p ~/.zshenv
-
+    source /etc/profile
     rehash
 }
 
