@@ -11,7 +11,7 @@
 
 ;; -- ruby mode --
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
-(add-to-list 'auto-mode-alist '("\\.r(b|ake|u)$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.r\\(b\\|u\\|ake\\)$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . html-mode))
 
 (defun ruby-gtconf ()
