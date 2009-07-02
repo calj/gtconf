@@ -80,7 +80,7 @@
 
 ;;; -- Highlight-tail -- Kewl effect when writing fast :D
 (require 'highlight-tail)
-(setq highlight-tail-colors '(("yellow" . 0)
+(setq highlight-tail-colors '(("blue" . 0)
                               ("grey15" . 50)))
 (setq highlight-tail-steps 50
       highlight-tail-timer 0.03)
@@ -134,7 +134,7 @@
 
 ;;; [[ colors & look ]]
 
-(defconst my-cursor-color "yellow")	;; Sexy cursor color
+(defconst my-cursor-color "blue")	;; Sexy cursor color
 
 (tool-bar-mode 0)			;; Remove useless tool-bar on top
 (blink-cursor-mode 0)			;; Disable cursor blinking !
