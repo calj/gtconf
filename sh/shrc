@@ -12,8 +12,12 @@ umask 002
 # CUSTOM LIBRARY PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'/usr/local/lib/'
 
-# ADD GEEKTIPS BINARIES TO THE PATH
-export PATH=$GT_DIR/mbin:~/mbin:$PATH:/usr/sbin:/sbin
+# CUSTOMIZE THE PATH
+export PATH=$GT_DIR/mbin:~/mbin:$PATH
+
+for i in "/usr/local/bin" "/usr/sbin" "/sbin"; do
+    echo $PATH | grep -E '(^|:)$i' > /dev/null || PATH=$PATH:$i
+done
 
 if require 'java'; then
     JAVA_HOME=/opt/java
