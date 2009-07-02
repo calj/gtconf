@@ -63,6 +63,14 @@ if require sed; then
     }
 fi
 
+# COPY TO CLIPBOARD EASILY USING XCLIP
+if require xclip; then
+    function copy ()
+    {
+	echo -n $@ | xclip
+    }
+fi
+
 # CALCULATOR
 if require bc; then
     function calc ()
