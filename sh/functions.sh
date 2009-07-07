@@ -132,9 +132,9 @@ if require md5sum; then
 # GENERATE A DIGEST EASILY
     function digest_generator()
     {
-	echo -n "user:"	&&    read DIGEST_USER
-	echo -n "digest:"	&&    read DIGEST_DIGEST
-	echo -n "pass:"	&&    read DIGEST_PASS
+	echo -n "user:"    &&  read DIGEST_USER
+	echo -n "digest:"  &&  read DIGEST_DIGEST
+	echo -n "pass:"    &&  read DIGEST_PASS
 
 	ENCODED_PASS=$(echo -n $DIGEST_USER:$DIGEST_DIGEST:$DIGEST_PASS | md5sum | cut -d' ' -f1)
 	echo $DIGEST_USER:$DIGEST_DIGEST:$ENCODED_PASS
