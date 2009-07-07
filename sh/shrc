@@ -32,11 +32,18 @@ if require 'ruby'; then
     RUBYVERSION_MINOR=$(ruby --version | grep -E -o '[0-9]\.[0-9]\.[0-9]')
     RUBYVERSION_MAJOR=$(echo $RUBYVERSION_MINOR | grep -E -o '[0-9]\.[0-9]')
 
-    GEMBIN_MINOR=$HOME'/.gem/ruby/'$RUBYVERSION_MINOR'/bin'
-    GEMBIN_MAJOR=$HOME'/.gem/ruby/'$RUBYVERSION_MAJOR'/bin'
+    GEM_MINOR=$HOME'/.gem/ruby/'$RUBYVERSION_MINOR
+    GEM_MAJOR=$HOME'/.gem/ruby/'$RUBYVERSION_MAJOR
 
-    export PATH=$PATH$(test -d $GEMBIN_MINOR && echo :$GEMBIN_MINOR)
-    export PATH=$PATH$(test -d $GEMBIN_MAJOR && echo :$GEMBIN_MAJOR)
+    if [ -d $GEM_MINOR ]; then
+	GEMBIN_MINOR=$GEM_MINOR'/bin'
+	export PATH=$PATH$(test -d $GEMBIN_MINOR && echo :$GEMBIN_MINOR)
+	export GEM_PATH=$GEM_MINOR
+    elif [ -d $GEM_MAJOR ]; then
+	GEMBIN_MAJOR=$GEM_MAJOR'/bin'
+	export PATH=$PATH$(test -d $GEMBIN_MAJOR && echo :$GEMBIN_MAJOR)
+	export GEM_PATH=$GEM_MAJOR
+    fi
 
     export RUBYOPT="rubygems"
     export RUBYLIB=$RUBYLIB:'/usr/local/lib'
