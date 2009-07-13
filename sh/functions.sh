@@ -59,7 +59,7 @@ fi
 if require sed; then
     function color ()
     {
-	sed 's/\('$1'\)/'$lred'\1'$std'/g'
+	sed 's/\('$1'\)/'$lred'\1'$std'/ig'
     }
 fi
 
