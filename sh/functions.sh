@@ -18,6 +18,27 @@ function require()
     return 0
 }
 
+# concat_dir $ORDER $ORIGNAL_PATH ["path/to/pack", ...]
+function concat_dir()
+{
+    _ORDER_="$1"
+    _PATH_="$2"
+    while [ "$3" != "" ]; do
+	if [ -d $3 ]; then
+	    echo $_PATH_ | grep -E "(^|:)$2/?(:|\$)" > /dev/null
+	    if [ $? -ne 0 ]; then
+		if [ "$_ORDER_" = "before" ]; then
+		    _PATH_=$3:$_PATH_
+		else
+		    _PATH_=$_PATH_:$3
+		fi
+	    fi
+	fi
+	shift
+    done
+    echo $_PATH_
+}
+
 # LOAD BASIC SHELL COLORS
 function load_colors ()
 {
@@ -33,7 +54,7 @@ function load_colors ()
 }
 
 # Add a key to the Authorized keys list
-if require ssh; then
+if require 'ssh'; then
     function push_key ()
     {
 	KEYF=''
@@ -56,7 +77,7 @@ if require ssh; then
 fi
 
 # COLOR
-if require sed; then
+if require 'sed'; then
     function color ()
     {
 	sed 's/\('$1'\)/'$lred'\1'$std'/ig'
@@ -64,7 +85,7 @@ if require sed; then
 fi
 
 # COPY TO CLIPBOARD EASILY USING XCLIP
-if require xclip; then
+if require 'xclip'; then
     function copy ()
     {
 	echo -n $@ | xclip
@@ -72,7 +93,7 @@ if require xclip; then
 fi
 
 # CALCULATOR
-if require bc; then
+if require 'bc'; then
     function calc ()
     {
 	echo "$*" | bc -l
@@ -80,7 +101,7 @@ if require bc; then
 fi
 
 # MAKE A TARBALL
-if require tar; then
+if require 'tar'; then
     function mktar ()
     {
 	tar cvjf "$1.tar.bz2" $@
@@ -99,7 +120,7 @@ function clean ()
 }
 
 # SSH TO ANY SERV YOU WANT: `sshanyserv ip login`
-if require ssh; then
+if require 'ssh'; then
     function ssh_anyserv ()
     {
 	user=$USER
@@ -115,7 +136,7 @@ if require ssh; then
 fi
 
 # DISABLE TIMEOUTS
-if require echo true sleep; then
+if require 'echo' 'true' 'sleep'; then
     function donttimeoutme()
     {
 	while true;do echo -n "\a"; sleep 60; done &
@@ -128,7 +149,7 @@ function infinity_loop()
     while true; do $@;done
 }
 
-if require md5sum; then
+if require 'md5sum' 'cut'; then
 # GENERATE A DIGEST EASILY
     function digest_generator()
     {
@@ -145,11 +166,13 @@ fi
 # RELOAD THE SHRC
 function re()
 {
-    for i in `alias | cut -d'=' -f1`;do
-	[ "$i" != "-"   ] &&
-	[ "$i" != "']'" ] &&
-	alias $i=$i
-    done
+    if require 'cut'; then
+	for i in `alias | cut -d'=' -f1`;do
+	    [ "$i" != "-"   ] &&
+	    [ "$i" != "']'" ] &&
+	    alias "$i"="$i"
+	done
+    fi
 
     source /etc/profile
 }

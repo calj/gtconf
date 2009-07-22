@@ -9,23 +9,24 @@ load_colors
 # ALLOWS GROUP TO SEE OUR NEW FILES
 umask 002
 
-# CUSTOM LIBRARY PATH
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'/usr/local/lib/'
+# CUSTOMIZE PATH and LD_LIBRARY_PATH
+PATH=$(concat_dir 'after' $PATH \
+    "$GT_DIR/mbin"	\
+    "/usr/local/bin"	\
+    "/usr/sbin"		\
+    "/sbin"		\
+    "$HOME/mbin"	\
+    "$HOME/local/bin"	\
+)
 
-# CUSTOMIZE THE PATH
-export PATH=$GT_DIR/mbin:~/mbin:$PATH
+LD_LIBRARY_PATH=$(concat_dir 'after' $LD_LIBRARY_PATH	\
+    "/usr/local/lib"		\
+    "/opt/xerces-c-2/lib"	\
+    "$HOME/local/lib"		\
+)
 
-for i in "/usr/local/bin" "/usr/sbin" "/sbin"; do
-    echo $PATH | grep -E '(^|:)$i' > /dev/null || PATH=$PATH:$i
-done
-
-if require 'java'; then
-    JAVA_HOME=/opt/java
-    if [ -d $JAVA_HOME ]; then
-	PATH=$PATH:$JAVA_HOME/bin
-	export JAVA_HOME
-    fi
-fi
+export PATH
+export LD_LIBRARY_PATH
 
 # CUSTOMIZE PATH FOR RUBY
 if require 'ruby'; then
@@ -48,7 +49,4 @@ if require 'ruby'; then
     export RUBYOPT="rubygems"
     export RUBYLIB=$RUBYLIB:'/usr/local/lib'
 fi
-
-RABBIT_PATH='/usr/lib/erlang/lib/rabbitmq_server-1.5.5/sbin/'
-export PATH=$PATH$(test -d $RABBIT_PATH && echo :$RABBIT_PATH)
 
