@@ -17,6 +17,7 @@ PATH=$(concat_dir 'after' $PATH \
     "/sbin"		\
     "$HOME/mbin"	\
     "$HOME/local/bin"	\
+    "/usr/lib/erlang/lib/rabbitmq_server-1.5.5/sbin/" \
 )
 
 LD_LIBRARY_PATH=$(concat_dir 'after' $LD_LIBRARY_PATH	\
