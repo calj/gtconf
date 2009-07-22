@@ -12,11 +12,13 @@
 # RELOAD THE ZSHRC
 function re ()
 {
-    for i in `alias | cut -d'=' -f1`;do
-	[[ "$i" != "-"   ]] &&
-	[[ "$i" != "']'" ]] &&
-	unalias $i
-    done
+    if require cut; then
+	for i in `alias | cut -d'=' -f1`;do
+	    [[ "$i" != "-"   ]] &&
+	    [[ "$i" != "']'" ]] &&
+	    unalias "$i"
+	done
+    fi
 
     . /etc/profile
     [[ -f ~/.zshrc  ]] && source ~/.zshrc
