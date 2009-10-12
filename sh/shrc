@@ -10,7 +10,7 @@ load_colors
 umask 002
 
 # CUSTOMIZE PATH and LD_LIBRARY_PATH
-PATH=$(concat_dir 'after' $PATH \
+PATH=$(concat_dir 'after' "$PATH" \
     "$GT_DIR/mbin"	\
     "/usr/local/bin"	\
     "/usr/sbin"		\
@@ -19,7 +19,7 @@ PATH=$(concat_dir 'after' $PATH \
     "$HOME/local/bin"	\
 )
 
-LD_LIBRARY_PATH=$(concat_dir 'after' $LD_LIBRARY_PATH	\
+LD_LIBRARY_PATH=$(concat_dir 'after' "$LD_LIBRARY_PATH"	\
     "/usr/local/lib"		\
     "/opt/xerces-c-2/lib"	\
     "$HOME/local/lib"		\
@@ -27,6 +27,7 @@ LD_LIBRARY_PATH=$(concat_dir 'after' $LD_LIBRARY_PATH	\
 
 export PATH
 export LD_LIBRARY_PATH
+
 
 # CUSTOMIZE PATH FOR RUBY
 if require 'ruby'; then
