@@ -24,8 +24,8 @@ function concat_dir()
     _ORDER_="$1"
     _PATH_="$2"
     while [ "$3" != "" ]; do
-	if [ -d $3 ]; then
-	    echo $_PATH_ | grep -E "(^|:)$2/?(:|\$)" > /dev/null
+	if [ -e "$3" ]; then
+	    echo $_PATH_ | grep -E "(^|:)$3/?(:|\$)" > /dev/null
 	    if [ $? -ne 0 ]; then
 		if [ "$_ORDER_" = "before" ]; then
 		    _PATH_=$3:$_PATH_
@@ -38,6 +38,7 @@ function concat_dir()
     done
     echo $_PATH_
 }
+
 
 # LOAD BASIC SHELL COLORS
 function load_colors ()
