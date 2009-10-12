@@ -31,7 +31,7 @@ export LD_LIBRARY_PATH
 
 # JAVA CUSTOMIZE
 if require 'java'; then
-    CLASSPATH=$(concat_dir 'after' "$CLASSPATH" \
+    CLASSPATH=$(concat_dir 'before' "$CLASSPATH" \
 	"$HOME/devzone/nutch/lucene/lucene-2.9.0/build/lucene-core-2.9.jar"	\
 	"$HOME/devzone/nutch/lucene/lucene-2.9.0/build/lucene-demos-2.9.jar"	\
     )
