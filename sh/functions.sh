@@ -81,7 +81,9 @@ fi
 if require 'sed'; then
     function color ()
     {
-	sed 's/\('$1'\)/'$lred'\1'$std'/ig'
+	c=$lred
+	test "$2" = "" || c=$2
+	sed 's/\('$1'\)/'$c'\1'$std'/ig'
     }
 fi
 
@@ -91,7 +93,14 @@ if require 'xclip'; then
     {
 	echo -n $@ | xclip
     }
+
+# COPY PWD
+    function xpwd ()
+    {
+	copy $(pwd)
+    }
 fi
+
 
 # CALCULATOR
 if require 'bc'; then
