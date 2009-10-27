@@ -18,6 +18,7 @@ alias lq=la
 alias k=l
 alias mqke=make
 alias celan=clean
+alias clena=clean
 
 alias mkd=mkdir
 alias svnup='svn up && svn log --limit 3' #old: svn log -r PREV:COMMITTED
@@ -25,3 +26,4 @@ alias svnci='svn ci -m'
 alias svnst='svn st'
 alias svnadd='svn add'
 alias svndiff='svn diff -x -b'		# Do not show spaces differences
+alias gti=git
