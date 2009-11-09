@@ -184,6 +184,14 @@ my @modules =
 	 Depend		=>	"",
      },
      {
+	 Name		=>	"Emacs Black theme",
+	 Description	=>	"Black Theme for emacs",
+	 Checked	=>	"On",
+	 DotFiles	=>	".shrc .bashrc .zshrc",
+	 File		=>	"emacs/modules/emacs_black_theme.sh",
+	 Depend		=>	"Sh",
+     },
+     {
 	 Name		=>	"Vim",
 	 Description	=>	"Vim Gtconf",
 	 Checked	=>	"Off",
@@ -486,7 +494,7 @@ foreach my $choice ( @choices )
 	}
 	else
 	{
-	    $includeSyntax = getIncludeSyntax($choice_conf->{"Name"}, $incfile);
+	    $includeSyntax = getIncludeSyntax($choice_conf->{"DotFiles"}, $incfile);
 	}
 
 	if ( $includeSyntax eq '' )

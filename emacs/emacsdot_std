@@ -6,6 +6,13 @@
 (setq load-path (cons (concat (getenv "GT_DIR") "/emacs/ruby-mode") load-path))
 
 ;;============================================================================|
+;;                               PRINTING OPTIONS                             |
+;;============================================================================|
+(setq ps-print-color-p t)
+;;(ps-spool-buffer-with-faces)
+
+
+;;============================================================================|
 ;;                               CUSTOM PACKAGES                              |
 ;;============================================================================|
 
@@ -28,6 +35,12 @@
      (add-hook 'php-mode-user-hook
 	       '(lambda() (setq tab-width 2 c-basic-offset 4)))
      ))
+
+;; -- java mode
+(defun java-gtconf ()
+ (setq indent-tabs-mode nil))
+
+(add-hook 'java-mode-hook 'java-gtconf)
 
 ;; -- css mode --
 (require 'css-mode)

@@ -133,44 +133,46 @@
 
 
 ;;; [[ colors & look ]]
-
-(defconst my-cursor-color "blue")	;; Sexy cursor color
-
 (tool-bar-mode 0)			;; Remove useless tool-bar on top
 (blink-cursor-mode 0)			;; Disable cursor blinking !
-(set-cursor-color my-cursor-color)	;; Set cursor color previously defined
 
-;; DARK THEME BECAUSE WE ARE EVIL
-(set-background-color "grey10")			;; Default text font
-(set-foreground-color "grey95")			;; Default text font
-(set-face-background 'mode-line "firebrick")	;; mode-line at bottom
-(set-face-foreground 'mode-line "black")	;; mode-line at bottom
-(set-face-background 'scroll-bar "grey35")	;; scroll-bar on sides
-(set-face-foreground 'scroll-bar "#ffffff")	;; scroll-bar on sides
-(set-face-background 'tool-bar "grey50")	;; tool-bar at top
-(set-face-foreground 'tool-bar "black")		;; tool-bar at top
+(if (string= (getenv "GT_EMACS_THEME") "black")
+    (progn
+      (defconst my-cursor-color "blue")	;; Sexy cursor color
+      (set-cursor-color my-cursor-color)	;; Set cursor color previously defined
+     
+      ;; DARK THEME BECAUSE WE ARE EVIL
+      (set-background-color "grey10")	       ;; Default text font
+      (set-foreground-color "grey95")	       ;; Default text font
+      (set-face-background 'mode-line "firebrick") ;; mode-line at bottom
+      (set-face-foreground 'mode-line "black") ;; mode-line at bottom
+      (set-face-background 'scroll-bar "grey35") ;; scroll-bar on sides
+      (set-face-foreground 'scroll-bar "#ffffff") ;; scroll-bar on sides
+      (set-face-background 'tool-bar "grey50")	  ;; tool-bar at top
+      (set-face-foreground 'tool-bar "black")	  ;; tool-bar at top
 
-;; Highlight current line
-(global-hl-line-mode 1)
-(set-face-background 'highlight "grey15")
+      ;; Cursor color according to mode (Normal => Pink, Readonly => grey, Insert => Red)
+      (setq hcz-set-cursor-color-color "")
+      (setq hcz-set-cursor-color-buffer "")
+      (defun hcz-set-cursor-color-according-to-mode ()
+	"change cursor color according to some minor modes."
+	;; set-cursor-color is somewhat costly, so we only call it when needed:
+	(let ((color (cond (buffer-read-only "grey")
+			   (overwrite-mode "red")
+			   (t my-cursor-color))))
+	  (unless (and
+		   (string= color hcz-set-cursor-color-color)
+		   (string= (buffer-name) hcz-set-cursor-color-buffer))
+	    (set-cursor-color (setq hcz-set-cursor-color-color color))
+	    (setq hcz-set-cursor-color-buffer (buffer-name)))))
+      (add-hook 'post-command-hook 'hcz-set-cursor-color-according-to-mode)
 
-;; Cursor color according to mode (Normal => Pink, Readonly => grey, Insert => Red)
-(setq hcz-set-cursor-color-color "")
-(setq hcz-set-cursor-color-buffer "")
-(defun hcz-set-cursor-color-according-to-mode ()
-  "change cursor color according to some minor modes."
-  ;; set-cursor-color is somewhat costly, so we only call it when needed:
-  (let ((color (cond (buffer-read-only "grey")
-		     (overwrite-mode "red")
-		     (t my-cursor-color))))
-    (unless (and
-	     (string= color hcz-set-cursor-color-color)
-	     (string= (buffer-name) hcz-set-cursor-color-buffer))
-      (set-cursor-color (setq hcz-set-cursor-color-color color))
-      (setq hcz-set-cursor-color-buffer (buffer-name)))))
-(add-hook 'post-command-hook 'hcz-set-cursor-color-according-to-mode)
-
-
+      ;; Highlight current line
+      (global-hl-line-mode 1)
+      (set-face-background 'highlight "grey15")
+      )
+)
+  
 
 ;; MUST be last always
 (highlight-tail-reload)
