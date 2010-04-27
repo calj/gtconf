@@ -16,13 +16,25 @@
 ;;                               CUSTOM PACKAGES                              |
 ;;============================================================================|
 
-;; -- ruby mode --
-(autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
-(add-to-list 'auto-mode-alist '("\\.r\\(b\\|u\\|ake\\)$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rhtml$" . html-mode))
+;; Disable tabs for all languages
+(setq indent-tabs-mode nil)
 
+;; -- haml mode --
+(defun haml-gtconf ()
+  (setq tab-width 2)
+  (autoload 'haml-mode "haml-mode" "Haml mode." t)
+  (add-to-list 'auto-mode-alist '("\\.haml)$" . haml-mode))
+  )
+
+(add-hook 'haml-mode-hook 'haml-gtconf)
+
+;; -- ruby mode --
 (defun ruby-gtconf ()
-  (setq tab-width 2))
+  (setq tab-width 2)
+  (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
+  (add-to-list 'auto-mode-alist '("\\.r\\(b\\|u\\|ake\\)$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("\\.\\(rhtml\\|erb\\)$" . html-mode))
+  )
 
 (add-hook 'ruby-mode-hook 'ruby-gtconf)
 
@@ -33,7 +45,7 @@
 (eval-after-load `php-mode
   `(progn
      (add-hook 'php-mode-user-hook
-	       '(lambda() (setq tab-width 2 c-basic-offset 4)))
+	       '(lambda() (setq tab-width 2 c-basic-offset 2)))
      ))
 
 ;; -- java mode
@@ -113,6 +125,7 @@
 (setq ring-bell-function 'ignore)        ;; Shut The Fuck Up
 (setq make-backup-files nil)             ;; Do not make backup files (caca~)
 (setq scroll-step 3)                     ;; Scroll 3 lines when reaching top/end of buffer
+(scroll-bar-mode 0)                      ;; Scroll 3 lines when reaching top/end of buffer
 (setq next-screen-context-lines 1)       ;; Page Up/Down conserves 1 line from previous page
 (setq mouse-yank-at-point t)             ;; Paste at cursor rather than mouse
 (setq scroll-preserve-screen-position t) ;; Scrolling up and down will return to initial position
@@ -176,7 +189,10 @@
  '(show-paren-match-face ((((class color)) (:background "turquoise" :foreground "black"))))
  '(show-paren-mismatch-face ((((class color)) (:background "red" :foreground "black"))))
  '(flymake-errline ((((class color)) (:underline "OrangeRed"))))
- '(flymake-warnline ((((class color)) (:underline "yellow")))))
+ '(flymake-warnline ((((class color)) (:underline "yellow"))))
+ '(diff-added ((t (:foreground "#72DF2E"))) 'now)
+ '(diff-removed ((t (:foreground "#DF4811"))) 'now))
+
 
 ;=============================================================================|
 ;                             C-MODE MODIFICATIONS                            |

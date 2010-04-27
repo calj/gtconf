@@ -17,7 +17,6 @@ PATH=$(concat_dir 'after' "$PATH" \
     "/sbin"		\
     "$HOME/mbin"	\
     "$HOME/local/bin"	\
-    "/usr/lib/erlang/lib/rabbitmq_server-1.5.5/sbin/" \
 )
 
 LD_LIBRARY_PATH=$(concat_dir 'after' "$LD_LIBRARY_PATH"	\
@@ -28,15 +27,6 @@ LD_LIBRARY_PATH=$(concat_dir 'after' "$LD_LIBRARY_PATH"	\
 
 export PATH
 export LD_LIBRARY_PATH
-
-# JAVA CUSTOMIZE
-if require 'java'; then
-    CLASSPATH=$(concat_dir 'before' "$CLASSPATH" \
-	"$HOME/devzone/nutch/lucene/lucene-2.9.0/build/lucene-core-2.9.jar"	\
-	"$HOME/devzone/nutch/lucene/lucene-2.9.0/build/lucene-demos-2.9.jar"	\
-        "$HOME/workspace/Payload/bin/com/ant/PayloadTest.class"                 \
-    )
-fi
 
 # CUSTOMIZE PATH FOR RUBY
 if require 'ruby'; then

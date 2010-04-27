@@ -7,11 +7,8 @@
 # Disable globbing for binaries in GT_NOGLOB           #
 ########################################################
 
-GT_NOGLOB=$GT_NOGLOB" wget ssh calc wget"
+GT_NOGLOB=$GT_NOGLOB" wget ssh calc wget rake"
 
-for i in $(echo $GT_NOGLOB);do
-
-    alias "$i=noglob $i"
-
+for $cmd in $(echo $GT_NOGLOB); do
+    require $cmd && alias "$cmd=noglob $cmd"
 done
-

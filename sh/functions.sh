@@ -149,7 +149,7 @@ fi
 if require 'echo' 'true' 'sleep'; then
     function donttimeoutme()
     {
-	while true;do echo -n "\a"; sleep 60; done &
+        while true;do echo -ne "\a"; sleep 60; done &
     }
 fi
 
