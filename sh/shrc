@@ -61,7 +61,6 @@ if require 'ruby'; then
 
     export GEM_HOME=$HOME'/.gem'
     export RUBYOPT="rubygems"
-    export RUBYLIB=$RUBYLIB:'/usr/local/lib'
 fi
 
 # TERM CUSTOMIZE ENV
