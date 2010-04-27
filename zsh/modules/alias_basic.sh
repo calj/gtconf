@@ -24,24 +24,25 @@ alias -g .....='../../../..'
 alias -- '-'="popd"
 alias -- '+'="pushd"
 
-where md5sum &> /dev/null && \
-    alias md5=md5sum
+require "md5sum" && alias md5=md5sum
+require "bc"     && alias bc='bc -l'
+require "grep"   && alias -g G='| grep -Iin'
 
-where bc &> /dev/null && \
-    alias bc='bc -l'
+if require "svn"; then
+    alias svn=$GT_DIR/scripts/colorsvn
+    compdef colorsvn=svn
+fi
 
-#where svn &> /dev/null && \
-#    alias svn=$GT_DIR/scripts/colorsvn && compdef colorsvn=svn
+if require "less"; then
+    alias less='less -r'
+    alias -g L='| less'
+fi
 
-where git &> /dev/null && \
-    alias gitpull='git pull serv master' && \
-    alias gitpush='git push serv' && \
-    alias gitst='git status'
 
-alias -g L='| less'
-alias -g G='| grep -Iin'
-alias e='emacs'
-alias less='less -r'
+if require "emacs"; then
+    alias e='emacs'
+    alias qe='emacs -nw -q'
+fi
 
 alias untar=$GT_DIR/mbin/untar.sh
 alias untar_undo="untar_undo=1 $GT_DIR/mbin/untar.sh"

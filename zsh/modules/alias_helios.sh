@@ -8,4 +8,3 @@
 
 
 alias xpdf="xpdf -z page -paper A4"
-
