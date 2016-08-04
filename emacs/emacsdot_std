@@ -5,6 +5,10 @@
 (setq load-path (cons (concat (getenv "GT_DIR") "/emacs") load-path))
 (setq load-path (cons (concat (getenv "GT_DIR") "/emacs/ruby-mode") load-path))
 
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
+
 ;;============================================================================|
 ;;                               PRINTING OPTIONS                             |
 ;;============================================================================|
@@ -16,8 +20,12 @@
 ;;                               CUSTOM PACKAGES                              |
 ;;============================================================================|
 
+(require 'dockerfile-mode)
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+
+
 ;; Disable tabs for all languages
-(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 
 ;; -- haml mode --
 (defun haml-gtconf ()
@@ -106,7 +114,8 @@
 (transient-mark-mode t)                  ;; Highlight selected region
 (mouse-wheel-mode t)                     ;; Enable mouse wheel
 (dynamic-completion-mode t)              ;; ??? but sounds cool
-(menu-bar-mode 0)                        ;; Remove clickodrome menubar
+;;(menu-bar-mode 0)                        ;; Remove clickodrome menubar
+(tool-bar-mode 0)
 (display-time)                           ;; Time in modeline
 ;(display-battery-mode t)                ;; Battery in modeline ==> very slow <==
 (which-function-mode t)                  ;; Display current function in modeline

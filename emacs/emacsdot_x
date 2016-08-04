@@ -79,12 +79,12 @@
 
 
 ;;; -- Highlight-tail -- Kewl effect when writing fast :D
-(require 'highlight-tail)
-(setq highlight-tail-colors '(("deep pink" . 0)
-                              ("grey15" . 50)))
-(setq highlight-tail-steps 50
-      highlight-tail-timer 0.03)
-(highlight-tail-reload)
+;; (require 'highlight-tail)
+;; (setq highlight-tail-colors '(("deep pink" . 0)
+;;                               ("grey15" . 50)))
+;; (setq highlight-tail-steps 50
+;;       highlight-tail-timer 0.03)
+;; (highlight-tail-reload)
 
 
 ;=============================================================================|
@@ -175,4 +175,4 @@
   
 
 ;; MUST be last always
-(highlight-tail-reload)
+;;(highlight-tail-reload)

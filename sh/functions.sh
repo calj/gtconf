@@ -12,7 +12,7 @@
 function require()
 {
     while [ "$1" != "" ]; do
-	which $1 2>&1 > /dev/null || return 1
+	which $1 > /dev/null 2>&1 || return 1
 	shift
     done
     return 0
