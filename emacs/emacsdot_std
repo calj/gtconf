@@ -533,7 +533,7 @@ class " fname))
 ;; Do NOT modify stuff below
 
 ;; Load correct file -> X or noX
-(let ((confile (concat (getenv "GT_DIR") (if window-system "/emacs/emacsdot_x" "/emacs/emacsdot_nox"))))
+(let ((confile (if window-system "/home/calj/gtconf/emacs/emacsdot_x" "/home/calj/gtconf/emacs/emacsdot_nox")))
   (if (file-exists-p confile)
       (load-file confile)))
 

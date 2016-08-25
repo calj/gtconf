@@ -9,79 +9,78 @@
 ;; (maximize-frame)	; window nicely maximized but breaks toggle-fullscreen
 (add-hook 'window-setup-hook 'maximize-frame t)
 
-;; -- Flymake -- Compilation and error/warning reports on the fly
-(require 'flymake)
-(add-hook 'c-mode-common-hook 'flymake-mode)
-(require 'flymake-tools)
-(require 'flymake-php)
-(add-hook 'php-mode-user-hook 'flymake-php-load)
-(eval-after-load `flymake
-  `(progn
-     (set-face-underline 'flymake-errline "OrangeRed")
-     (set-face-background 'flymake-errline nil)
-     (set-face-underline 'flymake-warnline "yellow")
-     (set-face-background 'flymake-warnline nil)
-
-     (setq flymake-gui-warnings-enabled nil)   ;; Disable popup windows
-
-     (add-hook 'flymake-mode-hook
-	       (lambda () (define-key (current-local-map) [f6] 'flymake-goto-next-error)))
-
-     ;; Flymake C / C++
-     (setq flymake-allowed-file-name-masks
-	   (cons '(".+\\.cc?$"
-		   flymake-simple-make-init
-		   flymake-simple-cleanup
-		   flymake-get-real-file-name)
-		 flymake-allowed-file-name-masks))
-     ))
+;;;; -- Flymake -- Compilation and error/warning reports on the fly
+;;(require 'flymake)
+;;(add-hook 'c-mode-common-hook 'flymake-mode)
+;;(require 'flymake-tools)
+;;(require 'flymake-php)
+;;(add-hook 'php-mode-user-hook 'flymake-php-load)
+;;(eval-after-load `flymake
+;;  `(progn
+;;     (set-face-underline 'flymake-errline "OrangeRed")
+;;     (set-face-background 'flymake-errline nil)
+;;     (set-face-underline 'flymake-warnline "yellow")
+;;     (set-face-background 'flymake-warnline nil)
+;;
+;;     (setq flymake-gui-warnings-enabled nil)   ;; Disable popup windows
+;;
+;;     (add-hook 'flymake-mode-hook
+;;	       (lambda () (define-key (current-local-map) [f6] 'flymake-goto-next-error)))
+;;
+;;     ;; Flymake C / C++
+;;     (setq flymake-allowed-file-name-masks
+;;	   (cons '(".+\\.cc?$"
+;;		   flymake-simple-make-init
+;;		   flymake-simple-cleanup
+;;		   flymake-get-real-file-name)
+;;		 flymake-allowed-file-name-masks))
+;;     ))
 
 ;;; -- flyspell-prog -- aspell in comments
-(add-hook 'c-mode-hook          'flyspell-prog-mode 1)
-(add-hook 'c++-mode-hook        'flyspell-prog-mode 1)
-(add-hook 'cperl-mode-hook      'flyspell-prog-mode 1)
-(add-hook 'perl-mode-hook       'flyspell-prog-mode 1)
-(add-hook 'python-mode-hook     'flyspell-prog-mode 1)
-(add-hook 'ruby-mode-hook       'flyspell-prog-mode 1)
-(add-hook 'sh-mode-hook         'flyspell-prog-mode 1)
-(add-hook 'makefile-mode-hook   'flyspell-prog-mode 1)
-(add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode 1)
-(defun my-flyspell-accept-filenames (start end useless)
-  (file-exists-p
-   (let ((chars "--:$+<>@-Z_a-z~") (pt (point)))
-     (buffer-substring
-      (save-excursion
-	(skip-chars-backward chars)
-	(skip-chars-forward "<" pt)
-	(point))
-      (save-excursion
-	(skip-chars-forward chars)
-	(skip-chars-backward ">;.,!?" pt)
-	(point))))
-   )
-  )
-(add-hook 'flyspell-incorrect-hook 'my-flyspell-accept-filenames)
-(defun my-flyspell-accept-urls (start end useless)
-  (string-match
-   "^[a-zA-Z]+://"
-   (let ((chars "!-~") (pt (point)))
-     (buffer-substring
-      (save-excursion
-	(skip-chars-backward chars)
-	(point))
-      (save-excursion
-	(skip-chars-forward chars)
-	(point))))
-   )
-  )
-(add-hook 'flyspell-incorrect-hook 'my-flyspell-accept-urls)
+;; (add-hook 'c-mode-hook          'flyspell-prog-mode 1)
+;; (add-hook 'c++-mode-hook        'flyspell-prog-mode 1)
+;; (add-hook 'cperl-mode-hook      'flyspell-prog-mode 1)
+;; (add-hook 'perl-mode-hook       'flyspell-prog-mode 1)
+;; (add-hook 'python-mode-hook     'flyspell-prog-mode 1)
+;; (add-hook 'ruby-mode-hook       'flyspell-prog-mode 1)
+;; (add-hook 'sh-mode-hook         'flyspell-prog-mode 1)
+;; (add-hook 'makefile-mode-hook   'flyspell-prog-mode 1)
+;; (add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode 1)
+;; (defun my-flyspell-accept-filenames (start end useless)
+;;   (file-exists-p
+;;    (let ((chars "--:$+<>@-Z_a-z~") (pt (point)))
+;;      (buffer-substring
+;;       (save-excursion
+;; 	(skip-chars-backward chars)
+;; 	(skip-chars-forward "<" pt)
+;; 	(point))
+;;       (save-excursion
+;; 	(skip-chars-forward chars)
+;; 	(skip-chars-backward ">;.,!?" pt)
+;; 	(point))))
+;;    )
+;;   )
+;; (add-hook 'flyspell-incorrect-hook 'my-flyspell-accept-filenames)
+;; (defun my-flyspell-accept-urls (start end useless)
+;;   (string-match
+;;    "^[a-zA-Z]+://"
+;;    (let ((chars "!-~") (pt (point)))
+;;      (buffer-substring
+;;       (save-excursion
+;; 	(skip-chars-backward chars)
+;; 	(point))
+;;       (save-excursion
+;; 	(skip-chars-forward chars)
+;; 	(point))))
+;;    )
+;;   )
+;; (add-hook 'flyspell-incorrect-hook 'my-flyspell-accept-urls)
 
-
-
-;;; -- Highlight-tail -- Kewl effect when writing fast :D
+;; -- Highlight-tail -- Kewl effect when writing fast :D
 ;; (require 'highlight-tail)
-;; (setq highlight-tail-colors '(("deep pink" . 0)
-;;                               ("grey15" . 50)))
+;; (setq highlight-tail-colors '(("blue" . 0)
+;; 			      ("grey15" . 50)))
+
 ;; (setq highlight-tail-steps 50
 ;;       highlight-tail-timer 0.03)
 ;; (highlight-tail-reload)
@@ -136,12 +135,10 @@
 (tool-bar-mode 0)			;; Remove useless tool-bar on top
 (blink-cursor-mode 0)			;; Disable cursor blinking !
 
-(if (string= (getenv "GT_EMACS_THEME") "black")
     (progn
-      (defconst my-cursor-color "deep pink")	;; Sexy cursor color
+      (defconst my-cursor-color "blue")	;; Sexy cursor color
       (set-cursor-color my-cursor-color)	;; Set cursor color previously defined
      
-      ;; DARK THEME BECAUSE WE ARE EVIL
       (set-background-color "grey10")	       ;; Default text font
       (set-foreground-color "grey95")	       ;; Default text font
       (set-face-background 'mode-line "firebrick") ;; mode-line at bottom
@@ -171,7 +168,6 @@
       (global-hl-line-mode 1)
       (set-face-background 'highlight "grey15")
       )
-)
   
 
 ;; MUST be last always
