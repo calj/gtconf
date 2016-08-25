@@ -41,7 +41,6 @@ bindkey "\e[3~"		delete-char		# Delete
 
 bindkey -s '^B' " 2> /dev/null &! \n"		# ctrl-B executes in bg and don't kill it whenever the shell die.
 
-export GREP_OPTIONS="--color=auto -I"
 export PAGER="less -r"
 export EDITOR="emacs -nw"
 export XTERM_OPTS="-T ${HOST}@${USER} -n ${HOST}@${USER} -ls"
@@ -63,5 +62,4 @@ export XTERM_OPTS="-T ${HOST}@${USER} -n ${HOST}@${USER} -ls"
 	  alias ls='gls --color -h'
 	  ;;
   esac
-
 

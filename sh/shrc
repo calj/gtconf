@@ -21,8 +21,6 @@ PATH=$(concat_dir 'after' "$PATH" \
 
 LD_LIBRARY_PATH=$(concat_dir 'after' "$LD_LIBRARY_PATH"	\
     "/usr/local/lib"		\
-    "/opt/xerces-c-2/lib"	\
-    "$HOME/local/lib"		\
 )
 
 export PATH
@@ -53,3 +51,12 @@ if require 'ruby'; then
     export RUBYOPT="rubygems"
 fi
 
+# TERM CUSTOMIZE ENV
+case "$TERM" in
+    rxvt-*)
+	TERM="rxvt"
+	;;
+
+    *)
+	;;
+esac

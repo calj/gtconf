@@ -3,11 +3,12 @@
 ;(setq debug-on-error t)
 
 (setq load-path (cons (concat (getenv "GT_DIR") "/emacs") load-path))
-(setq load-path (cons (concat (getenv "GT_DIR") "/emacs/ruby-mode") load-path))
 
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
+
+(package-initialize)
 
 ;;============================================================================|
 ;;                               PRINTING OPTIONS                             |
@@ -23,11 +24,27 @@
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
+;; Golang
+(setenv "GOPATH" "/home/calj/devzone/go")
+(setenv "PATH" (concat (getenv "PATH") ":" (concat (getenv "GOPATH") "/bin")))
+(setq exec-path (append exec-path (list (expand-file-name (concat (getenv "GOPATH") "/bin")))))
+
+(add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/dougm/goflymake"))
+(require 'go-flycheck)
+(require 'go-flymake)
 
 ;; Disable tabs for all languages
 (setq-default indent-tabs-mode nil)
 
-;; -- haml mode --
+;; -- sh --
+(setq sh-basic-offset 2
+      sh-indentation 2)
+
+;; -- yaml --
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\.yml\'" . yaml-mode))
+
+;; -- haml --
 (defun haml-gtconf ()
   (setq tab-width 2)
   (autoload 'haml-mode "haml-mode" "Haml mode." t)
@@ -36,8 +53,7 @@
 
 (add-hook 'haml-mode-hook 'haml-gtconf)
 
-
-;; -- ruby mode --
+;; -- ruby --
 (defun ruby-gtconf ()
   (setq tab-width 2)
   (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
@@ -47,7 +63,7 @@
 
 (add-hook 'ruby-mode-hook 'ruby-gtconf)
 
-;; -- php mode --
+;; -- php --
 (require 'php-mode)
 (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.php[34]?$" . php-mode))
@@ -57,7 +73,22 @@
 	       '(lambda() (setq tab-width 2 c-basic-offset 2)))
      ))
 
-;; -- css mode --
+;; -- groovy --
+(autoload 'groovy-mode "groovy-mode" "Major mode for editing Groovy code." t)
+(add-to-list 'auto-mode-alist '("\.gradle$" . groovy-mode))
+(add-to-list 'auto-mode-alist '("\.groovy$" . groovy-mode))
+(add-to-list 'interpreter-mode-alist '("groovy" . groovy-mode))
+
+;; -- java --
+(defun java-gtconf ()
+ (setq indent-tabs-mode nil))
+
+(add-hook 'java-mode-hook 'java-gtconf)
+
+;;  -- javascript --
+(setq js-indent-level 2)
+
+;; -- css --
 (require 'css-mode)
 (add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
 (eval-after-load `css-mode
@@ -135,7 +166,6 @@
 (setq scroll-preserve-screen-position t) ;; Scrolling up and down will return to initial position
 (global-auto-revert-mode t)              ;; Auto reload file when it changed ?
 (setq kill-whole-line t)                 ;; Ctrl-K kills whole line when cursor is at begining
-(if window-system (pc-selection-mode))   ;; NE PAS METTRE DANS _X ou _NOX - ca marche pas sinon...
 (delete-selection-mode t)                ;; Del and Backspace delete current selection
 (toggle-uniquify-buffer-names)           ;; Renames ambiguous buffers: Makefile<2> -> src/Makefile
 

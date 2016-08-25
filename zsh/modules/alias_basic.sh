@@ -26,12 +26,10 @@ alias -- '+'="pushd"
 
 require "md5sum" && alias md5=md5sum
 require "bc"     && alias bc='bc -l'
-require "grep"   && alias -g G='| grep -Iin'
-
-if require "svn"; then
-    alias svn=$GT_DIR/scripts/colorsvn
-    compdef colorsvn=svn
-fi
+require "grep"   && {
+    alias -g G='| grep -Iin'
+    alias grep="grep --color=auto -I"
+}
 
 if require "less"; then
     alias less='less -r'
